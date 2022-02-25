@@ -10,6 +10,8 @@ from selenium.webdriver.common.by import By
 ''' 
 STEP ONE:
 Scrape images from the URL
+Sample usage:
+python getsrc.py https://google.com/
 
 '''
 
@@ -35,16 +37,17 @@ url = sys.argv[1]
 parsed = urlparse(url)
 domain = parsed.netloc.split(".")[-2:]
 host = ".".join(domain)
+
+print("===== HOSTNAME =====")
 print(host)
 
 driver.get(url)
 
-# Get all elements labelled 'img'. This line gives a 'The syntax of the command is incorrect.' warning but still works (lol).
+# Get all elements labelled 'img'
 images = driver.find_elements(By.TAG_NAME, 'img')
 
 
-
-# Make directory for this website, in case it doesn't exist
+# Make directory for this website, in case it doesn't exist. If this gives you a syntax error then reformat the website name.
 try:
     os.system("mkdir " + host)
 except:
