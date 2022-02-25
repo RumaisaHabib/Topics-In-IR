@@ -1,1 +1,26 @@
-# Topics-In-IR
+
+# Rethinking Web for Affordability and Inclusion
+## Transcoding Service for webpage reduction
+
+Collaborators:
+ - Rumaisa Habib
+ - Sarah Tanveer
+
+This project is a work in progress to debloat webpages (specifically through image transcoding) to make webpages lighter, and hence more affordable. 
+
+Steps:
+
+ - [ ] Scraping images from webpages 
+	 - [x] Getting all image sources from given website programmatically
+	 - [ ] Downloading all images from text file
+ - [ ] Calculating SSIM and image size (in px) of all images and arranging according to priority on webpage 
+ - [ ] Calculating webpage size (and target)
+	 - [ ] Get sum of all incoming bytes (= webpage size) and image sizes
+	 - [ ] Calculate target size using location (?) or specific metrics such as 1.5x reduction, 2x, 3x, etc.
+ - [ ] Converting images to WebP and reducing resolutions according to priority (implementing proportional reduction algorithm)
+ - [ ] Replacing image source with reduced versions for sample reduced webpages
+	 - [ ] Where to store images?
+	 - [ ] How to replace images programmatically?
+ - [ ] Creating a clean tool to generate an affordability report for any given website
+	 - [ ] Look into possible hosting sites e.g pythonanywhere, or a django application
+	 - [ ] Design a UI for the report 
