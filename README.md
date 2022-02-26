@@ -4,7 +4,7 @@
 
 Collaborators:
  - Rumaisa Habib 🐸
- - Sarah Tanveer 👑
+ - Sarah Tanveer 🌻
 
 This project is a work in progress to debloat webpages (specifically through image transcoding) to make webpages lighter, and hence more affordable. 
 
