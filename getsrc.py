@@ -58,14 +58,21 @@ print("===== IMAGES =====")
 with open(host+"/images.txt", "w") as f:
     for image in images:
         i = image.get_attribute('src')
-        print(i)
+        try:
+            if i[-3:] == "svg":
+                continue
+            f.write(i + "\n")
+        except Exception as e:
+            print(e)
+            print(i)
         # Writes image URL source to a file labelled images.txt in the host directory
-        f.write(i + "\n")
+        
 
 '''
 TO DO:
 - Use wget to download all images from the images.txt file into the directory of the host
 - Possible command (for linux):
-os.system("cd " + host + " && cat images.txt | parallel --gnu \"wget {}\"")
 '''
+os.system("cd " + host + " && wget -i images.txt")
+
 driver.close()
