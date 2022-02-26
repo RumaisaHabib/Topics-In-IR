@@ -123,7 +123,7 @@ image_names = os.listdir(host)
 for image in image_names:
     if image == "page_data.json" or image == "results.csv" or image == "images.txt":
         continue
-    os.system("cd " + host + " && magick " +image +" -define webp:lossless=true " + image.split(".")[0] + ".webp && rm " +image)
+    os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + image.split(".")[0] + ".webp && rm " +image)
 
 
 # Dump outputs to physical memory
