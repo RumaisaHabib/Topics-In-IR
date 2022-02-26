@@ -3,6 +3,7 @@ from selenium import webdriver
 import re
 from urllib.parse import urlparse
 import urllib.request, io
+from urllib.error import HTTPError
 from webdriver_manager.chrome import ChromeDriverManager
 import os
 import sys
@@ -54,7 +55,8 @@ url = sys.argv[1]
 parsed = urlparse(url)
 domain = parsed.netloc.split(".")[-2:]
 host = ".".join(domain)
-
+if len(host.split("."))>1:
+    host = ".".join(parsed.netloc.split(".")[-3:])
 print("===== HOSTNAME =====")
 page_data["host"] = host
 print(host)
@@ -98,8 +100,14 @@ with open(host+"/images.txt", "w") as f:
             # Add data to results
             results.loc[num_img] = [i, image_name, img_size]
             num_img+=1
+        except HTTPError as e:
+            if e.code == 403:
+                print(e)
+                print("Cannot analyse this site. Aborting...")
+                sys.exit()
         except Exception as e:
-            print(e)
+            pass
+                
         # Writes image URL source to a file labelled images.txt in the host directory
 page_data["numImages"] = num_img
 
