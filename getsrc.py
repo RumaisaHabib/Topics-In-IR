@@ -79,7 +79,7 @@ except:
     pass
 
 num_img = 0
-results = pd.DataFrame(columns=("Image", "Original Size (kB)"))
+results = pd.DataFrame(columns=("Image Source", "Image Name", "Original Size (KB)"))
 print("===== IMAGES =====")
 with open(host+"/images.txt", "w") as f:
     for image in images:
@@ -96,7 +96,7 @@ with open(host+"/images.txt", "w") as f:
             print(img_size, "KBs")
             
             # Add data to results
-            results.loc[num_img] = [image_name, img_size]
+            results.loc[num_img] = [i, image_name, img_size]
             num_img+=1
         except Exception as e:
             print(e)
