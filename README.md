@@ -18,8 +18,8 @@ Steps:
 	 - [x] Get sum of all incoming bytes (= webpage size) and image sizes
 	 - [ ] Calculate target size using location (?) or specific metrics such as 1.5x reduction, 2x, 3x, etc.
  - [ ] Reducing image quality
-         - [ ] Convert images to WebP
-         - [ ] Reducing resolution (proportional reduction)
+	 - [x] Convert images to WebP
+	 - [ ] Reducing resolution (proportional reduction)
  - [ ] Replacing image source with reduced versions for sample reduced webpages
 	 - [ ] Where to store images?
 	 - [ ] How to replace images programmatically?
