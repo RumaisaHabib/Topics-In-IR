@@ -15,7 +15,7 @@ Steps:
 	 - [x] Downloading all images from text file
  - [ ] Calculating SSIM and image size (in px) of all images and arranging according to priority on webpage 
  - [ ] Calculating webpage size (and target)
-	 - [ ] Get sum of all incoming bytes (= webpage size) and image sizes
+	 - [x] Get sum of all incoming bytes (= webpage size) and image sizes
 	 - [ ] Calculate target size using location (?) or specific metrics such as 1.5x reduction, 2x, 3x, etc.
  - [ ] Converting images to WebP and reducing resolutions according to priority (implementing proportional reduction algorithm)
  - [ ] Replacing image source with reduced versions for sample reduced webpages
