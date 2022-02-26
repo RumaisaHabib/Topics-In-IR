@@ -4,15 +4,15 @@
 
 Collaborators:
  - Rumaisa Habib 🐸
- - Sarah Tanveer 👑
+ - Sarah Tanveer 🌻
 
 This project is a work in progress to debloat webpages (specifically through image transcoding) to make webpages lighter, and hence more affordable. 
 
 Steps:
 
- - [ ] Scraping images from webpages 
+ - [x] Scraping images from webpages 
 	 - [x] Getting all image sources from given website programmatically
-	 - [ ] Downloading all images from text file
+	 - [x] Downloading all images from text file
  - [ ] Calculating SSIM and image size (in px) of all images and arranging according to priority on webpage 
  - [ ] Calculating webpage size (and target)
 	 - [ ] Get sum of all incoming bytes (= webpage size) and image sizes
