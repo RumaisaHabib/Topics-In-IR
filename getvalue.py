@@ -30,7 +30,9 @@ if len(host.split("."))>1:
     host = ".".join(parsed.netloc.split(".")[-3:])
 print("===== HOSTNAME =====")
 print(host)
+
 image_names = os.listdir(host)
+
 for image in image_names:
     # os.system("cd " + host)
     if image == "page_data.json" or image == "results.csv" or image == "images.txt":
