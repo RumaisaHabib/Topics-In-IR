@@ -39,7 +39,7 @@ for image in image_names:
         continue
     for i in qualities:
         # os.system("magick " +image +" -define webp:lossless=true " + image.split(".")[0] + ".webp && rm " +image)
-        os.system("cd " + host + "&& convert " + image + " -quality " + str(i) + "% " + str(i)+"_"+image)
+        os.system("cd " + host + "&& convert " + image + " -resize " + str(i) + "% " + str(i)+"_"+image)
         listOfReducedImages.append(str(i)+"_"+image)
     originalImages.append(image)
 
