@@ -11,11 +11,14 @@ from urllib.error import HTTPError
 from webdriver_manager.chrome import ChromeDriverManager
 import os
 import sys
-
+from tqdm import tqdm
+from colorama import Fore
 from skimage.metrics import structural_similarity as ssim
 import numpy as np
 import cv2
 import argparse
+
+PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
 
 url = sys.argv[1]
 
@@ -28,8 +31,7 @@ domain = parsed.netloc.split(".")[-2:]
 host = ".".join(domain)
 if len(host.split("."))>1:
     host = ".".join(parsed.netloc.split(".")[-3:])
-print("===== HOSTNAME =====")
-print(host)
+
 
 image_names = os.listdir(host)
 
@@ -103,11 +105,13 @@ def findSSIM(first, second):
         print("MSE:", mse_value)
         print("SSIM:", ssim_value)
 
-
-for original in originalImages:
+print("===== CALCULATING VALUES =====")
+for original in tqdm(originalImages, bar_format=PROGRESS_BAR):
     for i in qualities:
         originalPath = "./"+host+"/"+original
         reducedPath = "./"+host+"/"+listOfReducedImages[0]
         findSSIM(originalPath, reducedPath)
         os.system("cd " + host + "&& rm " + listOfReducedImages[0])
         listOfReducedImages.pop(0)
+
+print("===== GET VALUES COMPLETE =====")

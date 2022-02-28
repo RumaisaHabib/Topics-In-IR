@@ -1,4 +1,4 @@
-from selenium import webdriver
+
 import re
 from urllib.parse import urlparse
 import urllib.request, io
@@ -9,10 +9,10 @@ import pandas as pd
 from sympy import per
 
 url = sys.argv[1]
-goal = float(sys.argv[2]) # Target reduction in percentage e.g 0.5
+goal = float(sys.argv[2]) # Target size e.g 0.5
 
-if goal >= 1:
-    print("Please enter a target percentage less than 1")
+if goal >= 1 or goal <= 0:
+    print("Please enter a target percentage less than 1 and greater than 0")
     print("Aborting...")
     sys.exit()
 
@@ -22,8 +22,7 @@ domain = parsed.netloc.split(".")[-2:]
 host = ".".join(domain)
 if len(host.split("."))>1:
     host = ".".join(parsed.netloc.split(".")[-3:])
-print("===== HOSTNAME =====")
-print(host)
+
 
 f = open(host+'/page_data.json') 
 page_data = json.load(f)
