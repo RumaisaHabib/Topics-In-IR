@@ -152,7 +152,7 @@ f.close()
 results.to_csv(host+"/results.csv")
 # os.system("cd " + host + " && python3 -m http.server 8000")
 
-# IMP: To take screenshots of this page, you have to run python3 -m http.server 8000 in the host folder. Will be put into the bash script
+# IMP: To take screenshots of this page, you have to run python3 -m http.server 8000 in the host folder. Will be put into the bash script at the start
 driver.get('localhost:8000/source.html')
 driver.save_screenshot(host+"/original.png")
 driver.close()
