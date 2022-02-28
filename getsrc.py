@@ -106,7 +106,7 @@ page_data["kiloBytesIn"] = kb
 
 
 num_img = 0
-results = pd.DataFrame(columns=("Image Source", "Image Name", "Original Size (KB)"))
+results = pd.DataFrame(columns=("Image Source", "Image Name", "Original Size (KB)", "WebP Size (KB)"))
 print("===== SCRAPING IMAGES =====")
 with open(host+"/images.txt", "w") as f:
     for image in tqdm(images, bar_format=PROGRESS_BAR):
@@ -124,7 +124,7 @@ with open(host+"/images.txt", "w") as f:
             # Get original image size
             img_size = int(meta.get(name="Content-Length"))/BYTE_SIZE
             # Add data to results
-            results.loc[num_img] = [i, image_name, img_size]
+            results.loc[num_img] = [i, image_name, img_size, "-"]
             num_img+=1
         except HTTPError as e:
             if e.code == 403:
@@ -139,14 +139,14 @@ page_data["numImages"] = num_img
 
 print("===== DOWNLOADING IMAGES =====")
 os.system("cd " + host + " && wget -q --show-progress -i images.txt")
-
+results.set_index("Image Name", inplace=True)
 image_names = os.listdir(host)
 for image in image_names:
     if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
         continue
-    os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + image.split(".")[0] + ".webp && rm " +image)
-
-
+    new_image_name=image.split(".")[0] + ".webp"
+    os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + new_image_name + " && rm " +image)
+    results.loc[image, "WebP Size (KB)"] = os.stat(host + "/" + new_image_name).st_size/1024
 # Dump outputs to physical memory
 f = open(host+"/page_data.json", "w")
 json.dump(page_data, f)

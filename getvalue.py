@@ -106,7 +106,7 @@ def findSSIM(first, second):
         print("SSIM:", ssim_value)
 
 print("===== CALCULATING VALUES =====")
-for original in tqdm(originalImages, bar_format=PROGRESS_BAR):
+for original in originalImages:
     for i in qualities:
         originalPath = "./"+host+"/"+original
         reducedPath = "./"+host+"/"+listOfReducedImages[0]
