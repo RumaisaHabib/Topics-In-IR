@@ -4,3 +4,5 @@ python3 -m http.server $2 &
 python3 getsrc.py $1
 python3 getvalue.py $1
 
+fuser -k -n tcp $2
+

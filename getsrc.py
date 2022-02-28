@@ -112,12 +112,15 @@ with open(host+"/images.txt", "w") as f:
     for image in tqdm(images, bar_format=PROGRESS_BAR):
         i = image.get_attribute('src')
         try:
+            image_name = i.split("/")[-1]
+            if image_name[-3:] == "gif":
+                continue
             # Write to images
             f.write(i + "\n")
             path = urllib.request.urlopen(i)
             meta = path.info()
             # Image name for dataframe
-            image_name = i.split("/")[-1]
+            
             # Get original image size
             img_size = int(meta.get(name="Content-Length"))/BYTE_SIZE
             # Add data to results
