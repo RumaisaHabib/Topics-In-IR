@@ -1,4 +1,4 @@
-from PIL import Image
+import PIL.Image
 from urllib.parse import urlparse
 import os
 import sys
@@ -18,6 +18,8 @@ import cv2
 import argparse
 
 url = sys.argv[1]
+
+# results = pd.DataFrame(columns=("WebPImage", "SSIM", "Reduced Size"))
 
 qualities = [25, 50, 75]
 listOfReducedImages = []
@@ -41,12 +43,12 @@ for image in image_names:
         listOfReducedImages.append(str(i)+"_"+image)
     originalImages.append(image)
 
-def options():
- parser = argparse.ArgumentParser(description="Read image metadata")
- parser.add_argument("-o", "--first", help="Input image file.", required=True)
- parser.add_argument("-c", "--second", help="Input image file.", required=True)
- args = parser.parse_args()
- return args
+# def options():
+#  parser = argparse.ArgumentParser(description="Read image metadata")
+#  parser.add_argument("-o", "--first", help="Input image file.", required=True)
+#  parser.add_argument("-c", "--second", help="Input image file.", required=True)
+#  args = parser.parse_args()
+#  return args
 
 def mse(imageA, imageB):
  # the 'Mean Squared Error' between the two images is the sum of the squared difference between the two images
@@ -100,12 +102,25 @@ def findSSIM(first, second):
         ssim_value = compare(gray1, gray2)
         print("MSE:", mse_value)
         print("SSIM:", ssim_value)
+        return mse_value, ssim_value
 
+
+# print("CHECKSJHHG")
+# findSSIM("./"+host+"/"+originalImages[0], "./"+host+"/"+originalImages[0])
 
 for original in originalImages:
     for i in qualities:
+        print("ORGINAL AND " + str(i))
         originalPath = "./"+host+"/"+original
         reducedPath = "./"+host+"/"+listOfReducedImages[0]
+
+        # originalPath = "./"+host+"/"+original
+        # reducedPath = "./"+host+"/"+listOfReducedImages[0]
         findSSIM(originalPath, reducedPath)
+        # os.system("cd "+host+"&& identify -format " + "\"Pixel Size: %w x %h\n\"" + original)
+        # os.system("cd "+host+"&& identify -format " + "\"Pixel Size: %w x %h\n\"" + listOfReducedImages[0])
+        originalImage = PIL.Image.open(originalPath)
+        reducedImage = PIL.Image.open(reducedPath)
+        print("original size: ", originalImage.size, "reduced size: ", reducedImage.size)
         os.system("cd " + host + "&& rm " + listOfReducedImages[0])
         listOfReducedImages.pop(0)
