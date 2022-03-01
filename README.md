@@ -14,9 +14,10 @@ This project is a work in progress to debloat webpages (specifically through ima
 	 - [x] Getting all image sources from given website programmatically
 	 - [x] Downloading all images from text file
  - [ ] Calculating SSIM and image size (in px) of all images and assigning values to each image (and hence their reduction factor)
- - [ ] Calculating webpage size (and target)
+ - [x] Calculating webpage size (and target)
 	 - [x] Get sum of all incoming bytes (= webpage size) and image sizes
-	 - [ ] Calculate target size using location (?) or specific metrics such as 1.5x reduction, 2x, 3x, etc.
+	 - [x] Calculate target size using location (?) or specific metrics such as 1.5x reduction, 2x, 3x, etc.
+	 	- Used user-defined target ratio to current total
  - [ ] Reducing image quality
 	 - [x] Convert images to WebP
 	 - [ ] Reducing resolution (proportional reduction)
