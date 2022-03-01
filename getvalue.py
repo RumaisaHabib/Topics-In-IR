@@ -11,11 +11,14 @@ from urllib.error import HTTPError
 from webdriver_manager.chrome import ChromeDriverManager
 import os
 import sys
-
+from tqdm import tqdm
+from colorama import Fore
 from skimage.metrics import structural_similarity as ssim
 import numpy as np
 import cv2
 import argparse
+
+PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
 
 url = sys.argv[1]
 
@@ -30,12 +33,13 @@ domain = parsed.netloc.split(".")[-2:]
 host = ".".join(domain)
 if len(host.split("."))>1:
     host = ".".join(parsed.netloc.split(".")[-3:])
-print("===== HOSTNAME =====")
-print(host)
+
+
 image_names = os.listdir(host)
+
 for image in image_names:
     # os.system("cd " + host)
-    if image == "page_data.json" or image == "results.csv" or image == "images.txt":
+    if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
         continue
     for i in qualities:
         # os.system("magick " +image +" -define webp:lossless=true " + image.split(".")[0] + ".webp && rm " +image)
@@ -105,9 +109,13 @@ def findSSIM(first, second):
         return mse_value, ssim_value
 
 
+<<<<<<< HEAD
 # print("CHECKSJHHG")
 # findSSIM("./"+host+"/"+originalImages[0], "./"+host+"/"+originalImages[0])
 
+=======
+print("===== CALCULATING VALUES =====")
+>>>>>>> Sarah-Tanveer/main
 for original in originalImages:
     for i in qualities:
         print("ORGINAL AND " + str(i))
@@ -124,3 +132,5 @@ for original in originalImages:
         print("original size: ", originalImage.size, "reduced size: ", reducedImage.size)
         os.system("cd " + host + "&& rm " + listOfReducedImages[0])
         listOfReducedImages.pop(0)
+
+print("===== GET VALUES COMPLETE =====")
