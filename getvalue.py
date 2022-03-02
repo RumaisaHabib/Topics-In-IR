@@ -109,13 +109,7 @@ def findSSIM(first, second):
         return mse_value, ssim_value
 
 
-<<<<<<< HEAD
-# print("CHECKSJHHG")
-# findSSIM("./"+host+"/"+originalImages[0], "./"+host+"/"+originalImages[0])
-
-=======
 print("===== CALCULATING VALUES =====")
->>>>>>> Sarah-Tanveer/main
 for original in originalImages:
     for i in qualities:
         print("ORGINAL AND " + str(i))
