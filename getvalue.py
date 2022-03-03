@@ -114,8 +114,11 @@ def findSSIM(first, second):
 
 
 print("===== CALCULATING VALUES =====")
+<<<<<<< HEAD
 imageNum = 0
 results = pd.read_csv(host+"/results.csv")
+=======
+>>>>>>> bc8355222ba508a60998a78560507ff19cf8216e
 for original in originalImages:
     sumSSIM = 0;
     originalPath = "./"+host+"/"+original

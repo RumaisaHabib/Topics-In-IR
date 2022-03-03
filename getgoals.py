@@ -47,5 +47,5 @@ for i in list(results["WebP Size (KB)"]):
     results.loc[results["Target Size of Image"] > i, "Target Size of Image"] = i
 # results.loc[]
 results.to_csv(host+"/results.csv", index=False)
-print(results["Target Size of Image"][0], )
+#print(results["Target Size of Image"][0], )
 # lastCol = pd.read_csv(gost+"/results.csv", usecols[-1])
