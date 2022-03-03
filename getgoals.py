@@ -62,6 +62,8 @@ for index, row in results.iterrows():
     if index not in prunedindices:
         results.loc[index, "Target Size of Image"] = results.loc[index,"Reduction Factor"] * target_img_bytes
 
+
+# RE CALC REDUCTION FACTOR !!!!!
         # row["Target Size of Image"] = 
 # results.loc[]
 results.to_csv(host+"/results.csv", index=False)
