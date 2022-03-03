@@ -109,17 +109,22 @@ page_data["scrollHeight"] = driver.execute_script("return document.body.scrollHe
 page_data["scrollWidth"] = driver.execute_script("return document.body.scrollWidth") 
 
 num_img = 0
-results = pd.DataFrame(columns=("Image Source", "Image Name", "Original Size (KB)", "WebP Size (KB)"))
+results = pd.DataFrame(columns=("Image Source", "Image Name", "Original Size (KB)", "WebP Size (KB)")).set_index("Image Name")
+all_sources = []
 print("===== SCRAPING IMAGES =====")
 with open(host+"/images.txt", "w") as f:
-    for image in tqdm(images, bar_format=PROGRESS_BAR):
+    for image in tqdm(set(images), bar_format=PROGRESS_BAR):
         i = image.get_attribute('src')
+        if not i or i in all_sources:
+            continue
+        all_sources.append(i)
         try:
             image_name = i.split("/")[-1]
             if image_name[-3:] == "gif":
                 continue
             # Write to images
             f.write(i + "\n")
+            
             path = urllib.request.urlopen(i)
             meta = path.info()
             # Image name for dataframe
@@ -127,7 +132,7 @@ with open(host+"/images.txt", "w") as f:
             # Get original image size
             img_size = int(meta.get(name="Content-Length"))/BYTE_SIZE
             # Add data to results
-            results.loc[num_img] = [i, image_name, img_size, "-"]
+            results.loc[image_name] = [i, img_size, "-"]
             num_img+=1
         except HTTPError as e:
             if e.code == 403:
@@ -142,8 +147,17 @@ page_data["numImages"] = num_img
 
 print("===== DOWNLOADING IMAGES =====")
 os.system("cd " + host + " && wget -q --show-progress -i images.txt")
-results.set_index("Image Name", inplace=True)
+results = results[~results.index.duplicated(keep='first')]
 results["WebP Name"] = np.nan
+
+
+lines = open(host+'/images.txt', 'r').readlines()
+lines_set = set(lines)
+out  = open(host+'/images.txt', 'w')
+
+for line in lines_set:
+    out.write(line)
+
 image_names = os.listdir(host)
 for image in image_names:
     if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
