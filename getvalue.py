@@ -17,16 +17,20 @@ from skimage.metrics import structural_similarity as ssim
 import numpy as np
 import cv2
 import argparse
-
+import pandas as pd
 PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
 
 url = sys.argv[1]
 
-# results = pd.DataFrame(columns=("WebPImage", "SSIM", "Reduced Size"))
 
+# results = pd.DataFrame(columns=("SSIM Value", "Area/1000", "Value"))
 qualities = [25, 50, 75]
 listOfReducedImages = []
 originalImages = []
+ssimVals = []
+areaVals = []
+imageVals = []
+reductionFactor = []
 # Get website name
 parsed = urlparse(url)
 domain = parsed.netloc.split(".")[-2:]
@@ -109,28 +113,45 @@ def findSSIM(first, second):
         return mse_value, ssim_value
 
 
-<<<<<<< HEAD
-# print("CHECKSJHHG")
-# findSSIM("./"+host+"/"+originalImages[0], "./"+host+"/"+originalImages[0])
-
-=======
 print("===== CALCULATING VALUES =====")
->>>>>>> Sarah-Tanveer/main
+imageNum = 0
+results = pd.read_csv(host+"/results.csv")
 for original in originalImages:
+    sumSSIM = 0;
+    originalPath = "./"+host+"/"+original
     for i in qualities:
         print("ORGINAL AND " + str(i))
-        originalPath = "./"+host+"/"+original
+        
         reducedPath = "./"+host+"/"+listOfReducedImages[0]
 
-        # originalPath = "./"+host+"/"+original
+        originalPath = "./"+host+"/"+original
         # reducedPath = "./"+host+"/"+listOfReducedImages[0]
-        findSSIM(originalPath, reducedPath)
+        mseval, ssimval = findSSIM(originalPath, reducedPath)
+        sumSSIM = sumSSIM + ssimval
         # os.system("cd "+host+"&& identify -format " + "\"Pixel Size: %w x %h\n\"" + original)
         # os.system("cd "+host+"&& identify -format " + "\"Pixel Size: %w x %h\n\"" + listOfReducedImages[0])
-        originalImage = PIL.Image.open(originalPath)
-        reducedImage = PIL.Image.open(reducedPath)
-        print("original size: ", originalImage.size, "reduced size: ", reducedImage.size)
+        # originalImage = PIL.Image.open(originalPath)
+        # reducedImage = PIL.Image.open(reducedPath)
+        # print("original size: ", type(originalImage.size), "reduced size: ", reducedImage.size)
         os.system("cd " + host + "&& rm " + listOfReducedImages[0])
         listOfReducedImages.pop(0)
+    area = int((PIL.Image.open(originalPath)).size[0]) * int((PIL.Image.open(originalPath)).size[1])
+    ssimVals.append(1/(sumSSIM/len(qualities)))
+    areaVals.append(area/1000)
+    valueOfImage = ssimVals[-1] + areaVals[-1]
+    imageVals.append(valueOfImage)
+    # results.loc[imageNum] = [ssimVals[-1], areaVals[-1], imageVals[-1]]
+    imageNum = imageNum + 1
+
+results["SSIM Value"] = ssimVals
+results["Area/1000"] = areaVals
+results["Image Value"] = imageVals
+results.to_csv(host+"/results.csv", index=False)
+total = results["Image Value"].sum()
+results["Reduction Factor"] = imageVals
+results["Reduction Factor"] = (results["Reduction Factor"])/total
+results.to_csv(host+"/results.csv", index=False)
+
+
 
 print("===== GET VALUES COMPLETE =====")

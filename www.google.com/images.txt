@@ -7,4 +7,4 @@ https://www.gstatic.com/navigationdrawer/explicit_icon.svg
 https://www.gstatic.com/navigationdrawer/how_search_works_icon.svg
 https://www.gstatic.com/navigationdrawer/help_icon.svg
 https://www.gstatic.com/navigationdrawer/feedback_icon.svg
-http://www.google.com/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png
+https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png
