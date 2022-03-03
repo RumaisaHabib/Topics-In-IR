@@ -160,4 +160,6 @@ driver.get('localhost:8000/source.html')
 driver.save_screenshot(host+"/original.png")
 driver.close()
 
+
+# find reduction factor
 print("===== GET SRC COMPLETE =====")

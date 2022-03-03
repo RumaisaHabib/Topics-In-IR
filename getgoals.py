@@ -1,4 +1,3 @@
-
 import re
 from urllib.parse import urlparse
 import urllib.request, io
@@ -42,3 +41,11 @@ if percent_img/100 < (1-goal):
     sys.exit()
 target_img_bytes = total_image_size- ((1-goal)*page_size)
 print("Target total image size", round(target_img_bytes,2),"KBs")
+
+results["Target Size of Image"] = results["Reduction Factor"] * total_image_size
+for i in list(results["WebP Size (KB)"]):
+    results.loc[results["Target Size of Image"] > i, "Target Size of Image"] = i
+# results.loc[]
+results.to_csv(host+"/results.csv", index=False)
+#print(results["Target Size of Image"][0], )
+# lastCol = pd.read_csv(gost+"/results.csv", usecols[-1])
