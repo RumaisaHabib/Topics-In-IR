@@ -52,7 +52,6 @@ newtotalvals = 0
 prunedindices = []
 for index, row in results.iterrows():
     if row["WebP Size (KB)"] < row["Target Size of Image"]:
-        print(row["WebP Size (KB)"])
         results.loc[index, "Target Size of Image"] = row["WebP Size (KB)"]
         results.loc[index,"Reduction Factor"] = "-"
         prunedsize += row["WebP Size (KB)"]
@@ -76,3 +75,4 @@ for index, row in results.iterrows():
 results.to_csv(host+"/results.csv", index=False)
 #print(results["Target Size of Image"][0], )
 # lastCol = pd.read_csv(gost+"/results.csv", usecols[-1])
+print("===== TARGETS CALCULATED =====")

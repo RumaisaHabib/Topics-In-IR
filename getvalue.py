@@ -114,8 +114,8 @@ def findSSIM(first, second):
     if round(ratio_orig, 2) == round(ratio_comp, 2):
         mse_value = mse(gray1, gray2)
         ssim_value = compare(gray1, gray2)
-        print("MSE:", mse_value)
-        print("SSIM:", ssim_value)
+        # print("MSE:", mse_value)
+        # print("SSIM:", ssim_value)
         return mse_value, ssim_value
 
 
@@ -127,11 +127,11 @@ results["Area/1000"] = np.nan
 results["Normalized Area"] = np.nan
 results["Image Value"] = np.nan
 
-for original in originalImages:
+for original in tqdm(originalImages, bar_format=PROGRESS_BAR):
     sumSSIM = 0;
     originalPath = "./"+host+"/"+original
     for i in qualities:
-        print("ORGINAL AND " + str(i))
+        # print("ORGINAL AND " + str(i))
         
         reducedPath = "./"+host+"/"+listOfReducedImages[0]
 

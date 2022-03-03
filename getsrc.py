@@ -5,8 +5,6 @@ from urllib.parse import urlparse
 import urllib.request, io
 from urllib.error import HTTPError
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import os
 import numpy as np
 import sys
@@ -17,8 +15,7 @@ import pandas as pd
 import json
 from colorama import Fore
 from tqdm import tqdm
-from html2image import Html2Image
-
+from PIL import Image
 ''' 
 STEP ONE:
 Scrape images from the URL
@@ -76,21 +73,13 @@ driver.get(url)
 # save source html
 html = driver.find_element(By.XPATH, '//*')
 html = html.get_attribute('innerHTML')
+
+html = driver.page_source
 html = re.sub("src=\"/", "src=\""+ url + "/",html)
+
 f = open(host+"/source.html", "w")
 f.write(html)
 f.close()
-
-# take screenshot of original
-# driver.save_screenshot(host+"/original.png")
-
-
-# hti = Html2Image()
-# with open(host+'/source.html') as f:
-#     hti.screenshot(f.read(), save_as='original.png')
-#     os.system("cp original.png " + host + " && rm original.png")
-
-
 
 # Get all elements labelled 'img'
 images = driver.find_elements(By.TAG_NAME, 'img')
@@ -124,7 +113,6 @@ with open(host+"/images.txt", "w") as f:
                 continue
             # Write to images
             f.write(i + "\n")
-            
             path = urllib.request.urlopen(i)
             meta = path.info()
             # Image name for dataframe
@@ -163,6 +151,8 @@ for image in image_names:
     if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
         continue
     new_image_name=image.split(".")[0] + ".webp"
+    # format = Image.open(host + "/" +image).format
+    # print("cd " + host + " && convert " +format + ":" + image +" -define webp:lossless=true " + new_image_name + " && rm " +image)
     os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + new_image_name + " && rm " +image)
     results.loc[image, "WebP Name"] = new_image_name
     results.loc[image, "WebP Size (KB)"] = os.stat(host + "/" + new_image_name).st_size/1024
@@ -174,11 +164,10 @@ f.close()
 results.to_csv(host+"/results.csv")
 # os.system("cd " + host + " && python3 -m http.server 8000")
 
-# IMP: To take screenshots of this page, you have to run python3 -m http.server 8000 in the host folder. Will be put into the bash script at the start
-driver.get('localhost:8000/source.html')
+html_file = os.getcwd() + "//" + host + "//source.html"
+driver.get("file:///" + html_file)
 driver.save_screenshot(host+"/original.png")
 driver.close()
 
 
-# find reduction factor
 print("===== GET SRC COMPLETE =====")
