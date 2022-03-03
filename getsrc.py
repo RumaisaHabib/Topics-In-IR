@@ -8,6 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import os
+import numpy as np
 import sys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -104,6 +105,8 @@ for entry in tqdm(driver.get_log('performance'), bar_format=PROGRESS_BAR):
 print(kb, "KBs")
 page_data["kiloBytesIn"] = kb
 
+page_data["scrollHeight"] = driver.execute_script("return document.body.scrollHeight")
+page_data["scrollWidth"] = driver.execute_script("return document.body.scrollWidth") 
 
 num_img = 0
 results = pd.DataFrame(columns=("Image Source", "Image Name", "Original Size (KB)", "WebP Size (KB)"))
@@ -140,12 +143,14 @@ page_data["numImages"] = num_img
 print("===== DOWNLOADING IMAGES =====")
 os.system("cd " + host + " && wget -q --show-progress -i images.txt")
 results.set_index("Image Name", inplace=True)
+results["WebP Name"] = np.nan
 image_names = os.listdir(host)
 for image in image_names:
     if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
         continue
     new_image_name=image.split(".")[0] + ".webp"
     os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + new_image_name + " && rm " +image)
+    results.loc[image, "WebP Name"] = new_image_name
     results.loc[image, "WebP Size (KB)"] = os.stat(host + "/" + new_image_name).st_size/1024
 # Dump outputs to physical memory
 f = open(host+"/page_data.json", "w")

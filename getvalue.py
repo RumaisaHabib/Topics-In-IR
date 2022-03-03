@@ -2,6 +2,8 @@ import PIL.Image
 from urllib.parse import urlparse
 import os
 import sys
+from jinja2 import pass_environment
+import numpy as np
 from numpy import imag
 from selenium import webdriver
 import re
@@ -18,6 +20,7 @@ import numpy as np
 import cv2
 import argparse
 import pandas as pd
+import json
 PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
 
 url = sys.argv[1]
@@ -38,6 +41,9 @@ host = ".".join(domain)
 if len(host.split("."))>1:
     host = ".".join(parsed.netloc.split(".")[-3:])
 
+f = open(host+'/page_data.json') 
+page_data = json.load(f)
+scrollArea = page_data["scrollHeight"] * page_data["scrollWidth"]
 
 image_names = os.listdir(host)
 
@@ -115,7 +121,12 @@ def findSSIM(first, second):
 
 print("===== CALCULATING VALUES =====")
 imageNum = 0
-results = pd.read_csv(host+"/results.csv")
+results = pd.read_csv(host+"/results.csv").set_index("WebP Name")
+results["1/SSIM Value"] = np.nan
+results["Area/1000"] = np.nan
+results["Normalized Area"] = np.nan
+results["Image Value"] = np.nan
+
 for original in originalImages:
     sumSSIM = 0;
     originalPath = "./"+host+"/"+original
@@ -136,22 +147,17 @@ for original in originalImages:
         os.system("cd " + host + "&& rm " + listOfReducedImages[0])
         listOfReducedImages.pop(0)
     area = int((PIL.Image.open(originalPath)).size[0]) * int((PIL.Image.open(originalPath)).size[1])
-    ssimVals.append(1/(sumSSIM/len(qualities)))
-    areaVals.append(area/1000)
-    valueOfImage = ssimVals[-1] + areaVals[-1]
-    imageVals.append(valueOfImage)
+    results.loc[original, "1/SSIM Value"] = 1/(sumSSIM/len(qualities))
+    results.loc[original, "Area/1000"] = area/1000
+    results.loc[original, "Normalized Area"] = area/scrollArea
+    results.loc[original, "Image Value"] = (1/(sumSSIM/len(qualities)))+ area/scrollArea
     # results.loc[imageNum] = [ssimVals[-1], areaVals[-1], imageVals[-1]]
     imageNum = imageNum + 1
 
-results["SSIM Value"] = ssimVals
-results["Area/1000"] = areaVals
-results["Image Value"] = imageVals
-results.to_csv(host+"/results.csv", index=False)
-total = results["Image Value"].sum()
-results["Reduction Factor"] = imageVals
-results["Reduction Factor"] = (results["Reduction Factor"])/total
-results.to_csv(host+"/results.csv", index=False)
 
+total = results["Image Value"].sum()
+results["Reduction Factor"] = results["Image Value"]/total
+results.to_csv(host+"/results.csv")
 
 
 print("===== GET VALUES COMPLETE =====")

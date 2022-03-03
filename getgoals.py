@@ -42,9 +42,27 @@ if percent_img/100 < (1-goal):
 target_img_bytes = total_image_size- ((1-goal)*page_size)
 print("Target total image size", round(target_img_bytes,2),"KBs")
 
-results["Target Size of Image"] = results["Reduction Factor"] * total_image_size
-for i in list(results["WebP Size (KB)"]):
-    results.loc[results["Target Size of Image"] > i, "Target Size of Image"] = i
+results["Target Size of Image"] = results["Reduction Factor"] * target_img_bytes
+
+
+# for i in list(results["WebP Size (KB)"]):
+#     results.loc[results["Target Size of Image"] > i, "Target Size of Image"] = i
+prunedsize = 0 
+prunedindices = []
+for index, row in results.iterrows():
+    if row["WebP Size (KB)"] < row["Target Size of Image"]:
+        print(row["WebP Size (KB)"])
+        results.loc[index, "Target Size of Image"] = row["WebP Size (KB)"]
+        prunedsize += row["WebP Size (KB)"]
+        prunedindices.append(index)
+        
+target_img_bytes = target_img_bytes - prunedsize
+
+for index, row in results.iterrows():
+    if index not in prunedindices:
+        results.loc[index, "Target Size of Image"] = results.loc[index,"Reduction Factor"] * target_img_bytes
+
+        # row["Target Size of Image"] = 
 # results.loc[]
 results.to_csv(host+"/results.csv", index=False)
 #print(results["Target Size of Image"][0], )
