@@ -54,6 +54,7 @@ for index, row in results.iterrows():
     if row["WebP Size (KB)"] < row["Target Size of Image"]:
         print(row["WebP Size (KB)"])
         results.loc[index, "Target Size of Image"] = row["WebP Size (KB)"]
+        results.loc[index,"Reduction Factor"] = "-"
         prunedsize += row["WebP Size (KB)"]
         prunedindices.append(index)
         
