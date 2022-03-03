@@ -48,6 +48,7 @@ results["Target Size of Image"] = results["Reduction Factor"] * target_img_bytes
 # for i in list(results["WebP Size (KB)"]):
 #     results.loc[results["Target Size of Image"] > i, "Target Size of Image"] = i
 prunedsize = 0 
+newtotalvals = 0
 prunedindices = []
 for index, row in results.iterrows():
     if row["WebP Size (KB)"] < row["Target Size of Image"]:
@@ -60,6 +61,11 @@ target_img_bytes = target_img_bytes - prunedsize
 
 for index, row in results.iterrows():
     if index not in prunedindices:
+        newtotalvals += results.loc[index,"Image Value"]
+
+for index, row in results.iterrows():
+    if index not in prunedindices:
+        results.loc[index,"Reduction Factor"] = results.loc[index,"Image Value"]/newtotalvals
         results.loc[index, "Target Size of Image"] = results.loc[index,"Reduction Factor"] * target_img_bytes
 
 

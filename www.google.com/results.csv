@@ -1,0 +1,11 @@
+WebP Name,Image Name,Image Source,Original Size (KB),WebP Size (KB),1/SSIM Value,Area/1000,Normalized Area,Image Value,Reduction Factor,Target Size of Image
+home_icon.webp,home_icon.svg,https://www.gstatic.com/navigationdrawer/home_icon.svg,0.2265625,0.1171875,1.0141249368650564,0.576,0.00218878248974,1.0163137193547964,0.0894303722377683,0.1171875
+search_activity_icon.webp,search_activity_icon.svg,https://www.gstatic.com/navigationdrawer/search_activity_icon.svg,0.3837890625,0.212890625,1.009108691654872,0.576,0.00218878248974,1.011297474144612,0.24184226163670475,0.30666581259721876
+save_icon.webp,save_icon.svg,https://www.gstatic.com/navigationdrawer/save_icon.svg,0.9921875,0.1171875,1.0266631509750193,0.576,0.00218878248974,1.0288519334647592,0.0905336704946911,0.1171875
+settings_icon.webp,settings_icon.svg,https://www.gstatic.com/navigationdrawer/settings_icon.svg,0.8486328125,0.17578125,1.0091078481882003,0.576,0.00218878248974,1.0112966306779407,0.0889888942773941,0.17578125
+privacy_advisor_icon.webp,privacy_advisor_icon.svg,https://www.gstatic.com/navigationdrawer/privacy_advisor_icon.svg,0.7275390625,0.263671875,1.01099663057518,0.576,0.00218878248974,1.01318541306492,0.2422937444397301,0.30723831113294375
+explicit_icon.webp,explicit_icon.svg,https://www.gstatic.com/navigationdrawer/explicit_icon.svg,0.2490234375,0.123046875,1.0054417231880388,0.576,0.00218878248974,1.007630505677779,0.0886662941617106,0.123046875
+how_search_works_icon.webp,how_search_works_icon.svg,https://www.gstatic.com/navigationdrawer/how_search_works_icon.svg,0.4296875,0.166015625,1.032774331187723,0.576,0.00218878248974,1.0349631136774633,0.0910714228745184,0.166015625
+help_icon.webp,help_icon.svg,https://www.gstatic.com/navigationdrawer/help_icon.svg,0.4541015625,0.201171875,1.0164254856541974,0.576,0.00218878248974,1.0186142681439376,0.0896328086810102,0.201171875
+feedback_icon.webp,feedback_icon.svg,https://www.gstatic.com/navigationdrawer/feedback_icon.svg,0.2666015625,0.12890625,1.062801789812868,0.576,0.00218878248974,1.0649905723026083,0.0937136845611025,0.12890625
+googlelogo_color_160x56dp.webp,googlelogo_color_160x56dp.png,https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png,6.8828125,5.037109375,2.0209670259707417,35.84,0.1361909104727162,2.157157936443458,0.5158639939235652,0.6541365012698298
