@@ -8,13 +8,18 @@ from webdriver_manager.chrome import ChromeDriverManager
 import os
 import numpy as np
 import sys
+import ahk
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 import pandas as pd
 import json
 from colorama import Fore
 from tqdm import tqdm
+import pyautogui
+import time
 from PIL import Image
 ''' 
 STEP ONE:
@@ -75,7 +80,10 @@ html = driver.find_element(By.XPATH, '//*')
 html = html.get_attribute('innerHTML')
 
 html = driver.page_source
+
+html = driver.find_element_by_xpath("//*").get_attribute("outerHTML")
 html = re.sub("src=\"/", "src=\""+ url + "/",html)
+
 
 f = open(host+"/source.html", "w")
 f.write(html)
@@ -108,10 +116,13 @@ with open(host+"/images.txt", "w") as f:
             continue
         all_sources.append(i)
         try:
-            image_name = i.split("/")[-1]
+            # image_name = i.split("/")[-1]
+            path,image_name=os.path.split(i)
+            image_name = image_name.split("?")[0]
             if image_name[-3:] == "gif":
                 continue
             # Write to images
+            
             f.write(i + "\n")
             path = urllib.request.urlopen(i)
             meta = path.info()
@@ -128,7 +139,7 @@ with open(host+"/images.txt", "w") as f:
                 print("Cannot analyse this site. Aborting...")
                 sys.exit()
         except Exception as e:
-            pass
+            print(e)
                 
         # Writes image URL source to a file labelled images.txt in the host directory
 page_data["numImages"] = num_img
@@ -150,6 +161,9 @@ image_names = os.listdir(host)
 for image in image_names:
     if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
         continue
+    if len(image.split("?"))>1:
+        os.rename(host + "/" +image, host + "/" + image.split("?")[0])
+        image = image.split("?")[0]
     new_image_name=image.split(".")[0] + ".webp"
     # format = Image.open(host + "/" +image).format
     # print("cd " + host + " && convert " +format + ":" + image +" -define webp:lossless=true " + new_image_name + " && rm " +image)
@@ -161,11 +175,13 @@ f = open(host+"/page_data.json", "w")
 json.dump(page_data, f)
 f.close()
 
+results.dropna(axis=0,inplace=True)
 results.to_csv(host+"/results.csv")
 # os.system("cd " + host + " && python3 -m http.server 8000")
 
 html_file = os.getcwd() + "//" + host + "//source.html"
 driver.get("file:///" + html_file)
+
 driver.save_screenshot(host+"/original.png")
 driver.close()
 
