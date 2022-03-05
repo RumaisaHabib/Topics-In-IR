@@ -76,18 +76,20 @@ except:
 driver.get(url)
 
 # save source html
-html = driver.find_element(By.XPATH, '//*')
-html = html.get_attribute('innerHTML')
+# html = driver.find_element(By.XPATH, '//*')
+# html = html.get_attribute('innerHTML')
 
-html = driver.page_source
-
-html = driver.find_element_by_xpath("//*").get_attribute("outerHTML")
+# html = driver.page_source
+html = driver.execute_script("return document.body.innerHTML")
+# html = driver.find_element_by_xpath("//*").get_attribute("outerHTML")
 html = re.sub("src=\"/", "src=\""+ url + "/",html)
 
 
 f = open(host+"/source.html", "w")
 f.write(html)
 f.close()
+
+driver.save_screenshot(host+"/original.png")
 
 # Get all elements labelled 'img'
 images = driver.find_elements(By.TAG_NAME, 'img')
@@ -179,10 +181,10 @@ results.dropna(axis=0,inplace=True)
 results.to_csv(host+"/results.csv")
 # os.system("cd " + host + " && python3 -m http.server 8000")
 
-html_file = os.getcwd() + "//" + host + "//source.html"
-driver.get("file:///" + html_file)
+# html_file = os.getcwd() + "//" + host + "//source.html"
+# driver.get("file:///" + html_file)
 
-driver.save_screenshot(host+"/original.png")
+# # driver.save_screenshot(host+"/original.png")
 driver.close()
 
 

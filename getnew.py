@@ -8,8 +8,10 @@ from selenium.webdriver.chrome.service import Service
 import os
 import sys
 from tqdm import tqdm
+import re
 from colorama import Fore
 import pandas as pd
+import time
 BYTE_SIZE = 1024
 PHONE_WIDTH = 360
 PHONE_HEIGHT = 640
@@ -41,9 +43,9 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
     replace_with = "reduced_"+ image
     html = html.replace(to_replace, replace_with)
 
-f = open(host+"/reduced.html", "w")
-f.write(html)
-f.close()
+# f = open(host+"/reduced.html", "w")
+# f.write(html)
+# f.close()
 
 
 # Set options for web scraper
@@ -64,8 +66,24 @@ options.add_experimental_option("mobileEmulation", mobile_emulation)
 
 # Chrome web driver
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options,desired_capabilities=caps)
+driver.get(url)
 
-html_file = os.getcwd() + "//" + host + "//reduced.html"
-driver.get("file:///" + html_file)
+
+f = open(host+"/2.txt", "w")
+f.write(driver.execute_script("return document.body.innerHTML"))
+f.close()
+
+driver.execute_script("document.body.innerHTML = arguments[0]", html)
+
+f = open(host+"/reduced.html", "w")
+f.write(driver.page_source)
+f.close()
+
+# html_file = os.getcwd() + "//" + host + "//reduced.html"
+# driver.get("file:///" + html_file)
+# html = re.sub("(<html[^<]+>)", "", html)
+# html = html.replace("<html>", "")
+# html = html.replace("</html>", "")
+time.sleep(10)
 driver.save_screenshot(host+"/reduced.png")
 driver.close()
