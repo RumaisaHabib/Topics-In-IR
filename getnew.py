@@ -8,15 +8,22 @@ from selenium.webdriver.chrome.service import Service
 import os
 import sys
 from tqdm import tqdm
+import imageio as iio
 import re
 from colorama import Fore
 import pandas as pd
+from skimage.io import imread, imshow
+from skimage.transform import rescale, resize, downscale_local_mean
+from skimage.io import imsave
+import PIL
 import time
 BYTE_SIZE = 1024
 PHONE_WIDTH = 360
 PHONE_HEIGHT = 640
 PIXEL_RATIO = 3.0
 PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
+
+
 
 url = sys.argv[1]
 
@@ -29,7 +36,38 @@ if len(host.split("."))>1:
     
 with open(host+"/source.html", "r", encoding='utf-8') as f:
     html= f.read()
+    
+def reduce_to(image, final_size):
+    final_size = final_size*1024
+    print(image)
+    # img = iio.imread(host + "/" + image)
+    os.system("convert " + host + "/" + image + " -quality " + str(5) + "% " + host + "/reduced_"+ image)
+    smallest_possible_size = os.path.getsize(host + "/reduced_" + image)
+    
+    size = os.path.getsize(host + "/" + image)
+    factor = 99
+    
+    org_width, org_height = (PIL.Image.open(host + "/" + image)).size
+    
+    while(size>final_size and factor>5 and final_size>smallest_possible_size):
+        # image_rescaled = rescale(img, factor, anti_aliasing=False)
+        # imsave(host + "/reduced_" + image, image_rescaled)
+        os.system("convert " + host + "/" + image + " -quality " + str(factor) + "% " + host + "/reduced_"+ image)
+        size = os.path.getsize(host + "/reduced_" + image)
+        print('factor {} image of size {}'.format(factor,size))
+        factor = factor - 0.05
+    print('factor {} image of size {}'.format(factor,size))
+    
+    scale = 90
+    while(size>final_size):
+        os.system("convert " + host + "/" + image + " -scale " + str(scale) + "% " + "-resize "+ str(org_width) + "x" + str(org_height) +" "+ host + "/reduced_"+ image)
+        size = os.path.getsize(host + "/reduced_" + image)
+        print('scale {} image of size {}'.format(scale,size))
+        scale = scale - scale*0.05
 
+    end_size = os.path.getsize(host + "/reduced_" + image)
+    print(end_size)
+    
 image_names = os.listdir(host)
 results = pd.read_csv(host+"/results.csv").set_index("WebP Name")
 
@@ -38,8 +76,8 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
     if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
         continue
     target = results.loc[image,"Target Size of Image"]
-    print(target, image)
-    os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
+    # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
+    reduce_to(image,target)
     to_replace = results.loc[image,"Image Source"]
     replace_with = os.getcwd()+"/"+host+"/reduced_"+ image
     html = html.replace(to_replace, replace_with)
