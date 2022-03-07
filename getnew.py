@@ -38,9 +38,10 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
     if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
         continue
     target = results.loc[image,"Target Size of Image"]
-    os.system("convert " + host + "/" + image + " -define webp:extent=" + str(target) + "kb " + host + "/reduced_"+ image)
+    print(target, image)
+    os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
     to_replace = results.loc[image,"Image Source"]
-    replace_with = "reduced_"+ image
+    replace_with = os.getcwd()+"/"+host+"/reduced_"+ image
     html = html.replace(to_replace, replace_with)
 
 # f = open(host+"/reduced.html", "w")
@@ -84,6 +85,7 @@ f.close()
 # html = re.sub("(<html[^<]+>)", "", html)
 # html = html.replace("<html>", "")
 # html = html.replace("</html>", "")
+driver.refresh()
 time.sleep(10)
 driver.save_screenshot(host+"/reduced.png")
 driver.close()
