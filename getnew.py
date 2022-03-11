@@ -49,20 +49,21 @@ def reduce_to(image, final_size):
     
     org_width, org_height = (PIL.Image.open(host + "/" + image)).size
     
-    while(size>final_size and factor>5 and final_size>smallest_possible_size):
-        # image_rescaled = rescale(img, factor, anti_aliasing=False)
-        # imsave(host + "/reduced_" + image, image_rescaled)
-        os.system("convert " + host + "/" + image + " -quality " + str(factor) + "% " + host + "/reduced_"+ image)
-        size = os.path.getsize(host + "/reduced_" + image)
-        print('factor {} image of size {}'.format(factor,size))
-        factor = factor - 0.05
+    if (final_size>smallest_possible_size):
+        while(size>final_size and factor>5):
+            # image_rescaled = rescale(img, factor, anti_aliasing=False)
+            # imsave(host + "/reduced_" + image, image_rescaled)
+            os.system("convert " + host + "/" + image + " -quality " + str(factor) + "% " + host + "/reduced_"+ image)
+            size = os.path.getsize(host + "/reduced_" + image)
+            #print('factor {} image of size {}'.format(factor,size))
+            factor = factor - 0.05
     print('factor {} image of size {}'.format(factor,size))
     
     scale = 90
     while(size>final_size):
         os.system("convert " + host + "/" + image + " -scale " + str(scale) + "% " + "-resize "+ str(org_width) + "x" + str(org_height) +" "+ host + "/reduced_"+ image)
         size = os.path.getsize(host + "/reduced_" + image)
-        print('scale {} image of size {}'.format(scale,size))
+        #print('scale {} image of size {}'.format(scale,size))
         scale = scale - scale*0.05
 
     end_size = os.path.getsize(host + "/reduced_" + image)
@@ -79,7 +80,7 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
     # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
     reduce_to(image,target)
     to_replace = results.loc[image,"Image Source"]
-    replace_with = os.getcwd()+"/"+host+"/reduced_"+ image
+    replace_with = "https://localhost:4696/"+host+"/reduced_"+ image
     html = html.replace(to_replace, replace_with)
 
 # f = open(host+"/reduced.html", "w")
@@ -123,7 +124,7 @@ f.close()
 # html = re.sub("(<html[^<]+>)", "", html)
 # html = html.replace("<html>", "")
 # html = html.replace("</html>", "")
-driver.refresh()
+# driver.refresh()
 time.sleep(10)
 driver.save_screenshot(host+"/reduced.png")
 driver.close()

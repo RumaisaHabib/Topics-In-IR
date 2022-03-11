@@ -38,7 +38,9 @@ PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
 # Set options for web scraper
 options = webdriver.ChromeOptions()
 options.add_argument('--ignore-certificate-errors')
+options.add_argument('--allow-file-access-from-file')
 options.add_argument("--test-type")
+
 
 # Performance metrics setup for websize 
 logging_prefs = {'performance' : 'INFO'}    
@@ -80,16 +82,9 @@ driver.get(url)
 # html = html.get_attribute('innerHTML')
 
 # html = driver.page_source
-html = driver.execute_script("return document.body.innerHTML")
-# html = driver.find_element_by_xpath("//*").get_attribute("outerHTML")
-html = re.sub("src=\"/", "src=\""+ url + "/",html)
 
 
-f = open(host+"/source.html", "w")
-f.write(html)
-f.close()
 
-driver.save_screenshot(host+"/original.png")
 
 # Get all elements labelled 'img'
 images = driver.find_elements(By.TAG_NAME, 'img')
@@ -183,7 +178,17 @@ results.to_csv(host+"/results.csv")
 
 # html_file = os.getcwd() + "//" + host + "//source.html"
 # driver.get("file:///" + html_file)
+html = driver.execute_script("return document.body.innerHTML")
+# html = driver.find_element_by_xpath("//*").get_attribute("outerHTML")
+html = re.sub("src=\"//", "src=\"https://",html)
+html = re.sub("src=\"/", "src=\""+ url + "/",html)
 
+
+f = open(host+"/source.html", "w")
+f.write(html)
+f.close()
+
+driver.save_screenshot(host+"/original.png")
 # # driver.save_screenshot(host+"/original.png")
 driver.close()
 
