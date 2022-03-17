@@ -8,7 +8,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 import os
 import numpy as np
 import sys
-import ahk
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
@@ -18,8 +17,6 @@ import pandas as pd
 import json
 from colorama import Fore
 from tqdm import tqdm
-import pyautogui
-import time
 from PIL import Image
 ''' 
 STEP ONE:

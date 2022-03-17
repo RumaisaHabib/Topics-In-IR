@@ -17,12 +17,13 @@ from skimage.transform import rescale, resize, downscale_local_mean
 from skimage.io import imsave
 import PIL
 import time
+import math
 BYTE_SIZE = 1024
 PHONE_WIDTH = 360
 PHONE_HEIGHT = 640
 PIXEL_RATIO = 3.0
 PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
-
+ERROR_MARGIN = 0.01 # 1%
 
 
 url = sys.argv[1]
@@ -41,30 +42,42 @@ def reduce_to(image, final_size):
     final_size = final_size*1024
     print(image)
     # img = iio.imread(host + "/" + image)
-    os.system("convert " + host + "/" + image + " -quality " + str(5) + "% " + host + "/reduced_"+ image)
-    smallest_possible_size = os.path.getsize(host + "/reduced_" + image)
+    # os.system("convert " + host + "/" + image + " -quality " + str(5) + "% " + host + "/reduced_"+ image)
+    # smallest_possible_size = os.path.getsize(host + "/reduced_" + image)
     
     size = os.path.getsize(host + "/" + image)
-    factor = 99
+    factor = 50
     
     org_width, org_height = (PIL.Image.open(host + "/" + image)).size
     
-    if (final_size>smallest_possible_size):
-        while(size>final_size and factor>5):
-            # image_rescaled = rescale(img, factor, anti_aliasing=False)
-            # imsave(host + "/reduced_" + image, image_rescaled)
-            os.system("convert " + host + "/" + image + " -quality " + str(factor) + "% " + host + "/reduced_"+ image)
-            size = os.path.getsize(host + "/reduced_" + image)
-            #print('factor {} image of size {}'.format(factor,size))
-            factor = factor - 0.05
+    # if (final_size>smallest_possible_size):
+    while (size>final_size and factor>5):
+        # image_rescaled = rescale(img, factor, anti_aliasing=False)
+        # imsave(host + "/reduced_" + image, image_rescaled)
+        os.system("convert " + host + "/" + image + " -quality " + str(factor) + "% " + host + "/reduced_"+ image)
+        size = os.path.getsize(host + "/reduced_" + image)
+        if (size == ((ERROR_MARGIN*final_size)-final_size) or size == ((ERROR_MARGIN*final_size)+final_size)):
+            break
+        #print('factor {} image of size {}'.format(factor,size))
+        if(size > final_size):
+            factor = math.floor(factor / 2)
+        else:
+            factor = math.floor(0.75*2*factor)
+
     print('factor {} image of size {}'.format(factor,size))
     
     scale = 90
     while(size>final_size):
         os.system("convert " + host + "/" + image + " -scale " + str(scale) + "% " + "-resize "+ str(org_width) + "x" + str(org_height) +" "+ host + "/reduced_"+ image)
         size = os.path.getsize(host + "/reduced_" + image)
+        if (size == ((ERROR_MARGIN*final_size)-final_size) or size == ((ERROR_MARGIN*final_size)+final_size)):
+            break
         #print('scale {} image of size {}'.format(scale,size))
-        scale = scale - scale*0.05
+        if(size > final_size):
+            scale = math.floor(scale / 2)
+        else:
+            scale = math.floor(0.75*2*scale)
+        # scale = scale - scale*0.05
 
     end_size = os.path.getsize(host + "/reduced_" + image)
     print(end_size)
