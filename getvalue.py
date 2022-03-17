@@ -113,7 +113,7 @@ def findSSIM(first, second):
 
 print("===== CALCULATING VALUES =====")
 imageNum = 0
-results = pd.read_csv(host+"/results.csv").set_index("WebP Name")
+results = pd.read_csv(host+"/results.csv").set_index("New Name")
 results["1/SSIM Value"] = np.nan
 results["Area/1000"] = np.nan
 results["Normalized Area"] = np.nan

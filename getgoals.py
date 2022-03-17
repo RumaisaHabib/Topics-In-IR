@@ -51,10 +51,10 @@ prunedsize = 0
 newtotalvals = 0
 prunedindices = []
 for index, row in results.iterrows():
-    if row["WebP Size (KB)"] < row["Target Size of Image"]:
-        results.loc[index, "Target Size of Image"] = row["WebP Size (KB)"]
+    if row["New Size (KB)"] < row["Target Size of Image"]:
+        results.loc[index, "Target Size of Image"] = row["New Size (KB)"]
         results.loc[index,"Reduction Factor"] = "-"
-        prunedsize += row["WebP Size (KB)"]
+        prunedsize += row["New Size (KB)"]
         prunedindices.append(index)
         
 target_img_bytes = target_img_bytes - prunedsize

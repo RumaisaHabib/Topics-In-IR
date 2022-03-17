@@ -49,6 +49,7 @@ def reduce_to(image, final_size):
     factor = 50
     
     org_width, org_height = (PIL.Image.open(host + "/" + image)).size
+    os.system("cp " + host + "/" + image + " " + host + "/reduced_" + image)
     
     # if (final_size>smallest_possible_size):
     while (size>final_size and factor>5):
@@ -56,7 +57,7 @@ def reduce_to(image, final_size):
         # imsave(host + "/reduced_" + image, image_rescaled)
         os.system("convert " + host + "/" + image + " -quality " + str(factor) + "% " + host + "/reduced_"+ image)
         size = os.path.getsize(host + "/reduced_" + image)
-        if (size == ((ERROR_MARGIN*final_size)-final_size) or size == ((ERROR_MARGIN*final_size)+final_size)):
+        if (size == ((ERROR_MARGIN*final_size)-final_size) or size == ((ERROR_MARGIN*final_size)+final_size) or factor <= 5):
             break
         #print('factor {} image of size {}'.format(factor,size))
         if(size > final_size):
@@ -72,26 +73,31 @@ def reduce_to(image, final_size):
         size = os.path.getsize(host + "/reduced_" + image)
         if (size == ((ERROR_MARGIN*final_size)-final_size) or size == ((ERROR_MARGIN*final_size)+final_size)):
             break
-        #print('scale {} image of size {}'.format(scale,size))
-        if(size > final_size):
-            scale = math.floor(scale / 2)
+        print('scale {} image of size {}'.format(scale,size))
+        if scale < 5:
+            scale = scale - scale*0.05
         else:
-            scale = math.floor(0.75*2*scale)
+            if(size > final_size):
+                scale = math.floor(scale / 2)
+            else:
+                scale = math.floor(0.75*2*scale)
         # scale = scale - scale*0.05
 
     end_size = os.path.getsize(host + "/reduced_" + image)
-    print(end_size)
+    return end_size
     
 image_names = os.listdir(host)
-results = pd.read_csv(host+"/results.csv").set_index("WebP Name")
+results = pd.read_csv(host+"/results.csv").set_index("New Name")
+results = results[~results.index.duplicated(keep='first')]
 
 print("===== GENERATING NEW WEBPAGE =====")
 for image in tqdm(image_names, bar_format=PROGRESS_BAR):
     if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
         continue
     target = results.loc[image,"Target Size of Image"]
+    
     # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
-    reduce_to(image,target)
+    results.loc[image,"Reduced Size of Image"] = reduce_to(image,target)/1024
     to_replace = results.loc[image,"Image Source"]
     replace_with = "https://localhost:4696/"+host+"/reduced_"+ image
     html = html.replace(to_replace, replace_with)
@@ -142,3 +148,4 @@ f.close()
 time.sleep(10)
 driver.save_screenshot(host+"/reduced.png")
 driver.close()
+results.to_csv(host+"/results.csv")

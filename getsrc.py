@@ -85,6 +85,7 @@ driver.get(url)
 
 # Get all elements labelled 'img'
 images = driver.find_elements(By.TAG_NAME, 'img')
+image_srcs = [i.get_attribute('src') for i in images]
 
 print("===== GETTING WEBPAGE SIZE =====")
 total_bytes = []
@@ -100,12 +101,12 @@ page_data["scrollHeight"] = driver.execute_script("return document.body.scrollHe
 page_data["scrollWidth"] = driver.execute_script("return document.body.scrollWidth") 
 
 num_img = 0
-results = pd.DataFrame(columns=("Image Source", "Image Name", "Original Size (KB)", "WebP Size (KB)")).set_index("Image Name")
+results = pd.DataFrame(columns=("Image Source", "Image Name", "Original Size (KB)", "New Size (KB)")).set_index("Image Name")
 all_sources = []
 print("===== SCRAPING IMAGES =====")
 with open(host+"/images.txt", "w") as f:
-    for image in tqdm(set(images), bar_format=PROGRESS_BAR):
-        i = image.get_attribute('src')
+    for i in tqdm(set(image_srcs), bar_format=PROGRESS_BAR):
+        # i = image.get_attribute('src')
         if not i or i in all_sources:
             continue
         all_sources.append(i)
@@ -113,10 +114,13 @@ with open(host+"/images.txt", "w") as f:
             # image_name = i.split("/")[-1]
             path,image_name=os.path.split(i)
             image_name = image_name.split("?")[0]
-            if image_name[-3:] == "gif":
+            if image_name[-3:] == "gif" or os.path.exists(host + "/" +image_name):
                 continue
             # Write to images
-            
+            try:
+                os.system("cd " + host + " && wget -q --show-progress " + i)
+            except:
+                continue
             f.write(i + "\n")
             path = urllib.request.urlopen(i)
             meta = path.info()
@@ -139,10 +143,8 @@ with open(host+"/images.txt", "w") as f:
 page_data["numImages"] = num_img
 
 print("===== DOWNLOADING IMAGES =====")
-os.system("cd " + host + " && wget -q --show-progress -i images.txt")
+# os.system("cd " + host + " && wget -q --show-progress -i images.txt")
 results = results[~results.index.duplicated(keep='first')]
-results["WebP Name"] = np.nan
-
 
 lines = open(host+'/images.txt', 'r').readlines()
 lines_set = set(lines)
@@ -161,9 +163,19 @@ for image in image_names:
     new_image_name=image.split(".")[0] + ".webp"
     # format = Image.open(host + "/" +image).format
     # print("cd " + host + " && convert " +format + ":" + image +" -define webp:lossless=true " + new_image_name + " && rm " +image)
-    os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + new_image_name + " && rm " +image)
-    results.loc[image, "WebP Name"] = new_image_name
-    results.loc[image, "WebP Size (KB)"] = os.stat(host + "/" + new_image_name).st_size/1024
+    os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + new_image_name)
+    old_size = os.path.getsize(host + "/" + image)/1024
+    new_size = os.path.getsize(host + "/" + new_image_name)/1024
+    if (old_size < new_size):
+        results.loc[image, "New Name"] = image
+        results.loc[image, "New Size (KB)"] = old_size
+        os.system("cd " + host + " && rm " + new_image_name )
+        
+    else:
+        results.loc[image, "New Name"] = new_image_name
+        results.loc[image, "New Size (KB)"] = new_size
+        os.system("cd " + host + " && rm " +image )
+    # results.loc[image, "New Size (KB)"] = os.stat(host + "/" + new_image_name).st_size/1024
 # Dump outputs to physical memory
 f = open(host+"/page_data.json", "w")
 json.dump(page_data, f)
