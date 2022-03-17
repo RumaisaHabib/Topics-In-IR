@@ -82,6 +82,7 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
     to_replace = results.loc[image,"Image Source"]
     replace_with = "https://localhost:4696/"+host+"/reduced_"+ image
     html = html.replace(to_replace, replace_with)
+    sys.stdout.flush()
 
 # f = open(host+"/reduced.html", "w")
 # f.write(html)
