@@ -22,7 +22,7 @@ This project is a work in progress to debloat webpages (specifically through ima
 	 - [x] Convert images to WebP
 	 - [x] Reducing resolution (proportional reduction)
 	 	- [x] Naive reduction
-	 	- [ ] Optimize time taken
+	 	- [x] Optimize time taken
  - [x] Replacing image source with reduced versions for sample reduced webpages
 	 - [x] Where to store images?
 	 	- Locally, and hosted on localhost
