@@ -18,6 +18,8 @@ from skimage.io import imsave
 import PIL
 import time
 import math
+
+
 BYTE_SIZE = 1024
 PHONE_WIDTH = 360
 PHONE_HEIGHT = 640
@@ -66,10 +68,15 @@ def reduce_to(image, final_size):
             factor = math.floor(0.75*2*factor)
 
     print('factor {} image of size {}'.format(factor,size))
-    
+
+    if(size>final_size):
+        img = PIL.Image.open("./" + host + "/reduced_" + image)
+        img1 = img.convert("L")
+        img1.save("./" + host + "/reduced_" + image)
+
     scale = 90
     while(size>final_size):
-        os.system("convert " + host + "/" + image + " -scale " + str(scale) + "% " + "-resize "+ str(org_width) + "x" + str(org_height) +" "+ host + "/reduced_"+ image)
+        os.system("convert " + host + "/reduced_" + image + " -scale " + str(scale) + "% " + "-resize "+ str(org_width) + "x" + str(org_height) +" "+ host + "/reduced_"+ image)
         size = os.path.getsize(host + "/reduced_" + image)
         if (size == ((ERROR_MARGIN*final_size)-final_size) or size == ((ERROR_MARGIN*final_size)+final_size)):
             break
@@ -92,16 +99,19 @@ results = results[~results.index.duplicated(keep='first')]
 
 print("===== GENERATING NEW WEBPAGE =====")
 for image in tqdm(image_names, bar_format=PROGRESS_BAR):
-    if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
-        continue
-    target = results.loc[image,"Target Size of Image"]
-    
-    # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
-    results.loc[image,"Reduced Size of Image"] = reduce_to(image,target)/1024
-    to_replace = results.loc[image,"Image Source"]
-    replace_with = "https://localhost:4696/"+host+"/reduced_"+ image
-    html = html.replace(to_replace, replace_with)
-    sys.stdout.flush()
+    try:
+        if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
+            continue
+        target = results.loc[image,"Target Size of Image"]
+        
+        # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
+        results.loc[image,"Reduced Size of Image"] = reduce_to(image,target)/1024
+        to_replace = results.loc[image,"Image Source"]
+        replace_with = "https://localhost:4696/"+host+"/reduced_"+ image
+        html = html.replace(to_replace, replace_with)
+        sys.stdout.flush()
+    except Exception:
+        pass
 
 # f = open(host+"/reduced.html", "w")
 # f.write(html)
