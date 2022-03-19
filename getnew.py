@@ -40,21 +40,11 @@ if len(host.split("."))>1:
 with open(host+"/source.html", "r", encoding='utf-8') as f:
     html= f.read()
     
-def reduce_to(image, final_size):
-    final_size = final_size*1024
-    print(image)
-    # img = iio.imread(host + "/" + image)
-    # os.system("convert " + host + "/" + image + " -quality " + str(5) + "% " + host + "/reduced_"+ image)
-    # smallest_possible_size = os.path.getsize(host + "/reduced_" + image)
-    
-    size = os.path.getsize(host + "/" + image)
+def reduceQuality(size,final_size, image):
     factor = 50
-    
-    org_width, org_height = (PIL.Image.open(host + "/" + image)).size
-    os.system("cp " + host + "/" + image + " " + host + "/reduced_" + image)
-    
-    # if (final_size>smallest_possible_size):
+    isFactored = False
     while (size>final_size and factor>5):
+        isFactored = True
         # image_rescaled = rescale(img, factor, anti_aliasing=False)
         # imsave(host + "/reduced_" + image, image_rescaled)
         os.system("convert " + host + "/" + image + " -quality " + str(factor) + "% " + host + "/reduced_"+ image)
@@ -66,32 +56,69 @@ def reduce_to(image, final_size):
             factor = math.floor(factor / 2)
         else:
             factor = math.floor(0.75*2*factor)
+    return factor, isFactored, size
+
+def reduce_to(image, final_size):
+    final_size = final_size*1024
+    print(image)
+    # img = iio.imread(host + "/" + image)
+    # os.system("convert " + host + "/" + image + " -quality " + str(5) + "% " + host + "/reduced_"+ image)
+    # smallest_possible_size = os.path.getsize(host + "/reduced_" + image)
+    
+    size = os.path.getsize(host + "/" + image)
+    
+    org_width, org_height = (PIL.Image.open(host + "/" + image)).size
+    os.system("cp " + host + "/" + image + " " + host + "/reduced_" + image)
+    
+    # if (final_size>smallest_possible_size):
+    factor, isFactored, size = reduceQuality(size, final_size, image)
 
     print('factor {} image of size {}'.format(factor,size))
-
+    isBlack = False
     if(size>final_size):
+        print("Black and white-d")
+        isBlack = True
         img = PIL.Image.open("./" + host + "/reduced_" + image)
         img1 = img.convert("L")
+        img1.show()
         img1.save("./" + host + "/reduced_" + image)
+    
+    factor, _, size = reduceQuality(size, final_size, "reduced_" + image)
 
-    scale = 90
-    while(size>final_size):
-        os.system("convert " + host + "/reduced_" + image + " -scale " + str(scale) + "% " + "-resize "+ str(org_width) + "x" + str(org_height) +" "+ host + "/reduced_"+ image)
-        size = os.path.getsize(host + "/reduced_" + image)
-        if (size == ((ERROR_MARGIN*final_size)-final_size) or size == ((ERROR_MARGIN*final_size)+final_size)):
-            break
-        print('scale {} image of size {}'.format(scale,size))
-        if scale < 5:
-            scale = scale - scale*0.05
-        else:
-            if(size > final_size):
-                scale = math.floor(scale / 2)
-            else:
-                scale = math.floor(0.75*2*scale)
+    # scale = 90
+    # isScaled = False
+    # while(size>final_size):
+    #     isScaled = True
+    #     os.system("convert " + host + "/reduced_" + image + " -scale " + str(scale) + "% " + "-resize "+ str(org_width) + "x" + str(org_height) +" "+ host + "/reduced_"+ image)
+    #     size = os.path.getsize(host + "/reduced_" + image)
+    #     if (size == ((ERROR_MARGIN*final_size)-final_size) or size == ((ERROR_MARGIN*final_size)+final_size)):
+    #         break
+    #     print('scale {} image of size {}'.format(scale,size))
+    #     if scale < 5:
+    #         scale = scale - scale*0.05
+    #     else:
+    #         if(size > final_size):
+    #             scale = math.floor(scale / 2)
+    #         else:
+    #             scale = math.floor(0.75*2*scale)
+    
         # scale = scale - scale*0.05
+    isRemoved = False
+    if(size>final_size):
+        
+        isRemoved = True
+        # img = PIL.Image.open("./" + host + "/reduced_" + image)
+        # img1 = img.convert('RGBA').convert("P", palette=PIL.Image.ADAPTIVE, colors=1)
+        # img1.save("./" + host + "/reduced_" + image)
 
+    if not isFactored:
+        factor = 100
+    # if not isScaled:
+    #     scale = 100
     end_size = os.path.getsize(host + "/reduced_" + image)
-    return end_size/1024, factor, scale
+    if isRemoved:
+        end_size = 0
+    return end_size/1024, factor, isRemoved, isBlack
     
 image_names = os.listdir(host)
 results = pd.read_csv(host+"/results.csv").set_index("New Name")
@@ -99,32 +126,24 @@ results = results[~results.index.duplicated(keep='first')]
 
 print("===== GENERATING NEW WEBPAGE =====")
 for image in tqdm(image_names, bar_format=PROGRESS_BAR):
-<<<<<<< HEAD
-    if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
-        continue
-    target = results.loc[image,"Target Size of Image"]
-    
-    # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
-    results.loc[image,"Reduced Size of Image"] , results.loc[image,"Resolution %"], results.loc[image,"Scaling %"]  = reduce_to(image,target)
-    to_replace = results.loc[image,"Image Source"]
-    replace_with = "https://localhost:4696/"+host+"/reduced_"+ image
-    html = html.replace(to_replace, replace_with)
-    sys.stdout.flush()
-=======
     try:
         if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
             continue
         target = results.loc[image,"Target Size of Image"]
         
         # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
-        results.loc[image,"Reduced Size of Image"] = reduce_to(image,target)/1024
+        results.loc[image,"Reduced Size of Image"], results.loc[image,"Factor"], removed,results.loc[image,"Black and White"] = reduce_to(image,target)
+        results.loc[image,"Removed"] = removed
         to_replace = results.loc[image,"Image Source"]
         replace_with = "https://localhost:4696/"+host+"/reduced_"+ image
+        
         html = html.replace(to_replace, replace_with)
+        if removed:
+            to_replace = "https://localhost:4696/"+host+"/reduced_"+ image + "\" "
+            replace_with = "https://localhost:4696/"+host+"/reduced_"+ image + "\" " + "style=\"display:none\""
         sys.stdout.flush()
-    except Exception:
-        pass
->>>>>>> 58b12941a1e36d4a74e4fa3f18bab0e766fe9038
+    except Exception as e:
+        print("ERROR:",e)
 
 # f = open(host+"/reduced.html", "w")
 # f.write(html)

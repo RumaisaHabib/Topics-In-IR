@@ -142,7 +142,7 @@ with open(host+"/images.txt", "w") as f:
         # Writes image URL source to a file labelled images.txt in the host directory
 page_data["numImages"] = num_img
 
-print("===== DOWNLOADING IMAGES =====")
+# print("===== DOWNLOADING IMAGES =====")
 # os.system("cd " + host + " && wget -q --show-progress -i images.txt")
 results = results[~results.index.duplicated(keep='first')]
 
