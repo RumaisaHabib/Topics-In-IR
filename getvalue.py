@@ -120,7 +120,7 @@ results["Normalized Area"] = np.nan
 results["Image Value"] = np.nan
 
 for original in tqdm(originalImages, bar_format=PROGRESS_BAR):
-    sumSSIM = 0;
+    sumSSIM = 0
     originalPath = "./"+host+"/"+original
     for i in qualities:
         # print("ORGINAL AND " + str(i))
