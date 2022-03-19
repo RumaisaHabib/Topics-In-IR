@@ -84,7 +84,7 @@ def reduce_to(image, final_size):
         # scale = scale - scale*0.05
 
     end_size = os.path.getsize(host + "/reduced_" + image)
-    return end_size
+    return end_size/1024, factor, scale
     
 image_names = os.listdir(host)
 results = pd.read_csv(host+"/results.csv").set_index("New Name")
@@ -97,7 +97,7 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
     target = results.loc[image,"Target Size of Image"]
     
     # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
-    results.loc[image,"Reduced Size of Image"] = reduce_to(image,target)/1024
+    results.loc[image,"Reduced Size of Image"] , results.loc[image,"Resolution %"], results.loc[image,"Scaling %"]  = reduce_to(image,target)
     to_replace = results.loc[image,"Image Source"]
     replace_with = "https://localhost:4696/"+host+"/reduced_"+ image
     html = html.replace(to_replace, replace_with)
