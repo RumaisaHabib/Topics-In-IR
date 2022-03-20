@@ -5,17 +5,13 @@ from selenium import webdriver
 from urllib.parse import urlparse
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 import os
 import sys
 from tqdm import tqdm
-import imageio as iio
-import re
 from colorama import Fore
 import pandas as pd
-from skimage.io import imread, imshow
-from skimage.transform import rescale, resize, downscale_local_mean
-from skimage.io import imsave
-import PIL
+from PIL import Image
 import time
 import math
 
@@ -40,15 +36,16 @@ if len(host.split("."))>1:
 with open(host+"/source.html", "r", encoding='utf-8') as f:
     html= f.read()
     
-def reduceQuality(size,final_size, image):
+def reduceQuality(size,final_size, orig, new):
     factor = 50
     isFactored = False
     while (size>final_size and factor>5):
         isFactored = True
+
         # image_rescaled = rescale(img, factor, anti_aliasing=False)
         # imsave(host + "/reduced_" + image, image_rescaled)
-        os.system("convert " + host + "/" + image + " -quality " + str(factor) + "% " + host + "/reduced_"+ image)
-        size = os.path.getsize(host + "/reduced_" + image)
+        os.system("convert " + host + "/" + orig + " -quality " + str(factor) + "% " + host + "/" + new)
+        size = os.path.getsize(host + "/" + new)
         if (size == ((ERROR_MARGIN*final_size)-final_size) or size == ((ERROR_MARGIN*final_size)+final_size) or factor <= 5):
             break
         #print('factor {} image of size {}'.format(factor,size))
@@ -65,28 +62,38 @@ def reduce_to(image, final_size):
     # os.system("convert " + host + "/" + image + " -quality " + str(5) + "% " + host + "/reduced_"+ image)
     # smallest_possible_size = os.path.getsize(host + "/reduced_" + image)
     
+    # Get original size
     size = os.path.getsize(host + "/" + image)
     
-    org_width, org_height = (PIL.Image.open(host + "/" + image)).size
+    # Make new image (reduced)
+    org_width, org_height = (Image.open(host + "/" + image)).size
     os.system("cp " + host + "/" + image + " " + host + "/reduced_" + image)
     
-    # if (final_size>smallest_possible_size):
-    factor, isFactored, size = reduceQuality(size, final_size, image)
+    # STEP 1: Reduce quality 
+    factor, isFactored, size = reduceQuality(size, final_size, image, "reduced_"+image)
 
     print('factor {} image of size {}'.format(factor,size))
+    
+    # STEP 2: Change colors
     isBlack = False
     if(size>final_size):
-        print("Black and white-d")
         isBlack = True
         # img = PIL.Image.open("./" + host + "/reduced_" + image)
         # info = img.info
         # img1 = img.convert("RGBA").convert("L")
         # img1.show()
         # img1.save("./" + host + "/reduced_" + image, **info)
-        os.system("convert " + host + "/reduced_" + image +  " -set colorspace Gray -separate -average " + host + "/reduced_" + image)
-    
-    factor, _, size = reduceQuality(size, final_size, "reduced_" + image)
-
+        # os.system("convert " + host + "/reduced_" + image +  " -set colorspace Gray -separate -average " + host + "/reduced_" + image)
+        # os.system("convert -colors " + str(colors)  + " " + host + "/reduced_" + image + " " + host + "/reduced_" + image)
+        os.system("convert -colors 2 " + host + "/reduced_" + image + " " + host + "/reduced_" + image)
+        
+        size = os.path.getsize(host + "/reduced_" + image)
+        print(size)
+ 
+        
+    os.system("cp " + host + "/reduced_" + image + " " + host + "/copy_reduced_" + image)
+    factor, _, size = reduceQuality(size, final_size, "copy_reduced_" + image, "reduced_" + image)
+    os.system("rm " + host + "/copy_reduced_" + image)
     # scale = 90
     # isScaled = False
     # while(size>final_size):
@@ -112,7 +119,7 @@ def reduce_to(image, final_size):
         # img = PIL.Image.open("./" + host + "/reduced_" + image)
         # img1 = img.convert('RGBA').convert("P", palette=PIL.Image.ADAPTIVE, colors=1)
         # img1.save("./" + host + "/reduced_" + image)
-        os.system("convert -size 800x800 xc:transparent " + host + "/reduced_" + image)
+        os.system("convert -size "+ str(org_width)+ "x" + str(org_height) +" xc:transparent " + host + "/reduced_" + image)
 
     if not isFactored:
         factor = 100
@@ -138,9 +145,11 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
         results.loc[image,"Reduced Size of Image"], results.loc[image,"Factor"], removed,results.loc[image,"Black and White"] = reduce_to(image,target)
         results.loc[image,"Removed"] = removed
         to_replace = results.loc[image,"Image Source"]
+        print(to_replace)
         replace_with = "https://localhost:4696/"+host+"/reduced_"+ image
         
         html = html.replace(to_replace, replace_with)
+        print("replaced")
         # if removed:
         #     to_replace = "https://localhost:4696/"+host+"/reduced_"+ image + "\" "
         #     replace_with = "https://localhost:4696/"+host+"/reduced_"+ image + "\" " + "style=\"display:none\""
@@ -178,8 +187,16 @@ f = open(host+"/2.txt", "w")
 f.write(driver.execute_script("return document.body.innerHTML"))
 f.close()
 
+# html = html.replace("srcset=")
+
+
 driver.execute_script("document.body.innerHTML = arguments[0]", html)
 
+# Manually remove srcset, forcing it use the image we give
+images = driver.find_elements(By.TAG_NAME, 'img')
+for element in images:
+    driver.execute_script("arguments[0].removeAttribute('srcset')", element)
+    
 f = open(host+"/reduced.html", "w")
 f.write(driver.page_source)
 f.close()

@@ -89,99 +89,99 @@ with(b)with(body)with(insertBefore(createElement("script"),firstChild))setAttrib
   <div class="J_BannerSliderWrap">
     <section class="J_BannerSlider banner-slider" data-mode-name="banner-slider">
       <div class="J_Content content" data-ratio="" data-height="200" style="height: 200px;">
-        <div class="J_MuiSlider mui-slider" style="transition-property: transform; transition-timing-function: cubic-bezier(0, 0, 0.25, 1); transition-duration: 300ms; transform: translate3d(-720px, 0px, 0px); width: 3960px;">
+        <div class="J_MuiSlider mui-slider" style="transition-property: transform; transition-timing-function: cubic-bezier(0, 0, 0.25, 1); transition-duration: 300ms; transform: translate3d(-1080px, 0px, 0px); width: 3960px;">
           
-          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/cluster-tv-and-home-appliances?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828817_7581651" data-index="8" title="TV &amp; Home Appliances" style="width: 360px;" _isfill="1">
+          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/cluster-tv-and-home-appliances?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832354_7581987" data-index="8" title="TV &amp; Home Appliances" style="width: 360px;" _isfill="1">
             
             <img class="J_LazyImg J_LazyLoad" data-ks-lazyload="//icms-image.slatic.net/images/ims-web/ef8ded6c-f58c-4f11-bd7f-93039657bd2a.jpg" alt="TV &amp; Home Appliances">
             
-          </a><a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/mega-deals-best-deals?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828809_7581651" data-index="0" title="Mega Deals" style="width: 360px;">
+          </a><a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/pk-day-sale?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832345_7581987" data-index="0" title="Voucher Fireworks" style="width: 360px;">
             
-            <img src="//icms-image.slatic.net/images/ims-web/8d038e86-fe29-46ba-beee-f9d8bd05275f.jpg_760x760Q50s150.jpg" alt="Mega Deals">
-            
-          </a>
-          
-          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/pk-day-sale?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828810_7581651" data-index="1" title="Voucher Fireworks" style="width: 360px;">
-            
-            <img class="J_LazyImg J_LazyLoad" alt="Voucher Fireworks" src="//icms-image.slatic.net/images/ims-web/474d4959-e0b0-4065-804d-01fee71b4b08.jpg">
+            <img src="//icms-image.slatic.net/images/ims-web/474d4959-e0b0-4065-804d-01fee71b4b08.jpg_760x760Q50s150.jpg" alt="Voucher Fireworks">
             
           </a>
           
-          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/free-shipping-by-tcs?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828811_7581651" data-index="2" title="TCS Free Shipping" style="width: 360px;">
+          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/free-shipping-by-tcs?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832346_7581987" data-index="1" title="TCS Free Shipping" style="width: 360px;">
             
             <img class="J_LazyImg J_LazyLoad" alt="TCS Free Shipping" src="//icms-image.slatic.net/images/ims-web/eefac24b-b0f7-454c-8deb-9f6df926d20f.jpg">
             
           </a>
           
-          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/reckitt_pkday?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828813_7581651" data-index="3" title="Reckitt" style="width: 360px;">
+          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/mega-deals-best-deals?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832347_7581987" data-index="2" title="Mega Deals" style="width: 360px;">
             
-            <img class="J_LazyImg J_LazyLoad" alt="Reckitt" src="//icms-image.slatic.net/images/ims-web/0b70fbab-ed3b-4c82-8a8b-761a33a39493.jpg">
-            
-          </a>
-          
-          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/hot-deals-best-deals?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828812_7581651" data-index="4" title="Hot Deals" style="width: 360px;">
-            
-            <img class="J_LazyImg J_LazyLoad" data-ks-lazyload="//icms-image.slatic.net/images/ims-web/c160c798-42c9-4883-bf2b-ffbfb2e03d33.jpg" alt="Hot Deals">
+            <img class="J_LazyImg J_LazyLoad" alt="Mega Deals" src="//icms-image.slatic.net/images/ims-web/8d038e86-fe29-46ba-beee-f9d8bd05275f.jpg">
             
           </a>
           
-          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/store-wide-flash-sale?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828808_7581651" data-index="5" title="Store Wide Flash Sale" style="width: 360px;">
+          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/hot-deals-best-deals?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832348_7581987" data-index="3" title="Hot Deals" style="width: 360px;">
             
-            <img class="J_LazyImg J_LazyLoad" data-ks-lazyload="//icms-image.slatic.net/images/ims-web/8165c268-b521-4a20-b07d-388b0f045b65.jpg" alt="Store Wide Flash Sale">
+            <img class="J_LazyImg J_LazyLoad" alt="Hot Deals" src="//icms-image.slatic.net/images/ims-web/c160c798-42c9-4883-bf2b-ffbfb2e03d33.jpg">
             
           </a>
           
-          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/pk-day-sale-payment-promotions?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828815_7581651" data-index="6" title="Payment Promotions" style="width: 360px;">
+          <a class="J_Item slider-item" href="//www.daraz.pk/shop/oppo?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832349_7581987" data-index="4" title="Oppo" style="width: 360px;">
+            
+            <img class="J_LazyImg J_LazyLoad" alt="Oppo" src="//icms-image.slatic.net/images/ims-web/79b16872-6bd9-4abd-abdb-2c525702ebab.jpg">
+            
+          </a>
+          
+          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/pk-day-sale-payment-promotions?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832350_7581987" data-index="5" title="Payment Promotions" style="width: 360px;">
             
             <img class="J_LazyImg J_LazyLoad" data-ks-lazyload="//icms-image.slatic.net/images/ims-web/64dc4040-2a82-40f8-b381-1a7589b8b740.jpg" alt="Payment Promotions">
             
           </a>
           
-          <a class="J_Item slider-item" href="//www.daraz.pk/shop/sapphire-official?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828816_7581651" data-index="7" title="sapphire" style="width: 360px;">
+          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/wbm_pkdaya?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832351_7581987" data-index="6" title="WBM" style="width: 360px;">
             
-            <img class="J_LazyImg J_LazyLoad" data-ks-lazyload="//icms-image.slatic.net/images/ims-web/5f8660a7-ff25-4a79-b913-22779bf3642c.jpg" alt="sapphire">
+            <img class="J_LazyImg J_LazyLoad" data-ks-lazyload="//icms-image.slatic.net/images/ims-web/c438ada1-7817-4d27-9398-8deb1297f107.jpg" alt="WBM">
             
           </a>
           
-          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/cluster-tv-and-home-appliances?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828817_7581651" data-index="8" title="TV &amp; Home Appliances" style="width: 360px;">
+          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/cluster-home-and-living?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832353_7581987" data-index="7" title="Home &amp; Living" style="width: 360px;">
+            
+            <img class="J_LazyImg J_LazyLoad" data-ks-lazyload="//icms-image.slatic.net/images/ims-web/409af8d7-a16f-4077-968d-00d645fd572a.jpg" alt="Home &amp; Living">
+            
+          </a>
+          
+          <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/cluster-tv-and-home-appliances?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832354_7581987" data-index="8" title="TV &amp; Home Appliances" style="width: 360px;">
             
             <img class="J_LazyImg J_LazyLoad" data-ks-lazyload="//icms-image.slatic.net/images/ims-web/ef8ded6c-f58c-4f11-bd7f-93039657bd2a.jpg" alt="TV &amp; Home Appliances">
             
           </a>
           
-        <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/mega-deals-best-deals?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828809_7581651" data-index="0" title="Mega Deals" style="width: 360px;" _isfill="1">
+        <a class="J_Item slider-item" href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/pk-day-sale?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832345_7581987" data-index="0" title="Voucher Fireworks" style="width: 360px;" _isfill="1">
             
-            <img src="//icms-image.slatic.net/images/ims-web/8d038e86-fe29-46ba-beee-f9d8bd05275f.jpg_760x760Q50s150.jpg" alt="Mega Deals">
+            <img src="//icms-image.slatic.net/images/ims-web/474d4959-e0b0-4065-804d-01fee71b4b08.jpg_760x760Q50s150.jpg" alt="Voucher Fireworks">
             
           </a></div>
         <div class="slider-container">
           <ul class="J_SideNav slider-nav">
             
-            <li class="" exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/mega-deals-best-deals?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828809_7581651" data-spm="db0" data-aplus-ae="x1_6cf1d709" data-spm-anchor-id="a2a0e.home.focuspic.db0.35e34937UCDV8Y">
+            <li class="" exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/pk-day-sale?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832345_7581987" data-spm="db0">
             </li>
             
-            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/pk-day-sale?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828810_7581651" data-spm="db1" class="current" data-aplus-ae="x2_3bf7a147" data-spm-anchor-id="a2a0e.home.focuspic.db1.35e34937UCDV8Y">
+            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/free-shipping-by-tcs?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832346_7581987" data-spm="db1" class="" data-aplus-ae="x1_5501a523" data-spm-anchor-id="a2a0e.home.focuspic.db1.35e3493762H3Zf">
             </li>
             
-            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/free-shipping-by-tcs?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828811_7581651" data-spm="db2">
+            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/mega-deals-best-deals?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832347_7581987" data-spm="db2" class="current" data-aplus-ae="x2_59b57430" data-spm-anchor-id="a2a0e.home.focuspic.db2.35e3493762H3Zf">
             </li>
             
-            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/reckitt_pkday?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828813_7581651" data-spm="db3">
+            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/hot-deals-best-deals?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832348_7581987" data-spm="db3">
             </li>
             
-            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/hot-deals-best-deals?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828812_7581651" data-spm="db4">
+            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/shop/oppo?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832349_7581987" data-spm="db4">
             </li>
             
-            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/store-wide-flash-sale?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828808_7581651" data-spm="db5">
+            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/pk-day-sale-payment-promotions?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832350_7581987" data-spm="db5">
             </li>
             
-            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/pk-day-sale-payment-promotions?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828815_7581651" data-spm="db6">
+            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/wbm_pkdaya?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832351_7581987" data-spm="db6">
             </li>
             
-            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/shop/sapphire-official?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828816_7581651" data-spm="db7">
+            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/cluster-home-and-living?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832353_7581987" data-spm="db7">
             </li>
             
-            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/cluster-tv-and-home-appliances?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051828817_7581651" data-spm="db8">
+            <li exp-tracking="bannerLink" tag-info="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/cluster-tv-and-home-appliances?scm=1003.4.icms-zebra-5029921-2824050.OTHER_6051832354_7581987" data-spm="db8">
             </li>
             
           </ul>
@@ -274,7 +274,7 @@ with(b)with(body)with(insertBefore(createElement("script"),firstChild))setAttrib
   <ul class="card-content channel-content">
     
     <li class="channel-item">
-      <a href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/pakistan-day-sale-darazmall?scm=1003.4.icms-zebra-5029921-2824053.OTHER_6051828239_7581543" class="channel-redirect" data-spm="1">
+      <a href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/pakistan-day-sale-darazmall?scm=1003.4.icms-zebra-5029921-2824053.OTHER_6051829647_7581774" class="channel-redirect" data-spm="1">
         <div class="channel-icon">
           <div class="img-wrap">
             <img src="//icms-image.slatic.net/images/ims-web/7c19af1a-454b-4972-9e5f-909bcf7bec12.png" alt="Mall">
@@ -288,7 +288,7 @@ with(b)with(body)with(insertBefore(createElement("script"),firstChild))setAttrib
     </li>
     
     <li class="channel-item">
-      <a href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/cluster-groceries-and-pets?scm=1003.4.icms-zebra-5029921-2824053.OTHER_6051828241_7581543" class="channel-redirect" data-spm="2">
+      <a href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/cluster-groceries-and-pets?scm=1003.4.icms-zebra-5029921-2824053.OTHER_6051829649_7581774" class="channel-redirect" data-spm="2">
         <div class="channel-icon">
           <div class="img-wrap">
             <img src="//icms-image.slatic.net/images/ims-web/87b977c7-3c0d-48bc-89a1-49aaad137037.png" alt="Mart">
@@ -302,7 +302,7 @@ with(b)with(body)with(insertBefore(createElement("script"),firstChild))setAttrib
     </li>
     
     <li class="channel-item">
-      <a href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/fashion-cluster?scm=1003.4.icms-zebra-5029921-2824053.OTHER_6051828242_7581543" class="channel-redirect" data-spm="3">
+      <a href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/fashion-cluster?scm=1003.4.icms-zebra-5029921-2824053.OTHER_6051829650_7581774" class="channel-redirect" data-spm="3">
         <div class="channel-icon">
           <div class="img-wrap">
             <img src="//icms-image.slatic.net/images/ims-web/92ee70e8-8e94-42f0-bbcc-f5fb4c281d02.png" alt="Fashion">
@@ -316,7 +316,7 @@ with(b)with(body)with(insertBefore(createElement("script"),firstChild))setAttrib
     </li>
     
     <li class="channel-item">
-      <a href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/under-rs-99?scm=1003.4.icms-zebra-5029921-2824053.OTHER_6051828243_7581543" class="channel-redirect" data-spm="4">
+      <a href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/under-rs-99?scm=1003.4.icms-zebra-5029921-2824053.OTHER_6051829651_7581774" class="channel-redirect" data-spm="4">
         <div class="channel-icon">
           <div class="img-wrap">
             <img src="//icms-image.slatic.net/images/ims-web/1981a782-2d73-4f11-8498-00350304ae68.png" alt="Under 99">
@@ -330,7 +330,7 @@ with(b)with(body)with(insertBefore(createElement("script"),firstChild))setAttrib
     </li>
     
     <li class="channel-item">
-      <a href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/beauty-cluster?scm=1003.4.icms-zebra-5029921-2824053.OTHER_6051828244_7581543" class="channel-redirect" data-spm="5">
+      <a href="//www.daraz.pk/wow/gcp/daraz/megascenario/pk/pk_day_2022/beauty-cluster?scm=1003.4.icms-zebra-5029921-2824053.OTHER_6051829652_7581774" class="channel-redirect" data-spm="5">
         <div class="channel-icon">
           <div class="img-wrap">
             <img src="//icms-image.slatic.net/images/ims-web/5fff5418-8246-4c9f-ba2e-bbf4d37be307.png" alt="Beauty">
@@ -363,81 +363,81 @@ with(b)with(body)with(insertBefore(createElement("script"),firstChild))setAttrib
           
           
           <li class="li-grid">
-            <a class="li-content" href="//www.daraz.pk/tubs-buckets/?up_id=1532118&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=1532118&amp;version=v2" exp-tracking="category" data-aplus-ae="x1_34fc78d6" data-spm-anchor-id="a2a0e.home.categories.2">
+            <a class="li-content" href="//www.daraz.pk/tubs-buckets/?up_id=2357060&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=2357060&amp;version=v2" exp-tracking="category" data-aplus-ae="x1_60457d7" data-spm-anchor-id="a2a0e.home.categories.2">
               <div class="image-container img-wrap">
-                <img src="https://static-01.daraz.pk/original/d11463f0f929b2898c1eb9e64132c546.jpg" alt="Cleaning Buckets &amp; Tubs">
+                <img src="https://static-01.daraz.pk/p/2a6ca48ba5d0f9b8ffc0e87546177e4d.jpg" alt="Cleaning Buckets &amp; Tubs">
               </div>
               <div class="category-name">Cleaning Buckets &amp; Tubs</div>
             </a>
           </li>
           
           <li class="li-grid">
-            <a class="li-content" href="//www.daraz.pk/mops-refills-mop-sets/?up_id=3275539&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=3275539&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.3" data-aplus-ae="x2_693fc68f">
+            <a class="li-content" href="//www.daraz.pk/mops-refills-mop-sets/?up_id=135071488&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=135071488&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.3" data-aplus-ae="x2_3123d24e">
               <div class="image-container img-wrap">
-                <img src="https://static-01.daraz.pk/original/6c1d74ec7c98f80584a369c5a3935465.jpg" alt="Brooms Mops &amp; Sweepers">
+                <img src="https://static-01.daraz.pk/p/b664ff7f10abfdd96acf7baf89b25f42.jpg" alt="Brooms Mops &amp; Sweepers">
               </div>
               <div class="category-name">Brooms Mops &amp; Sweepers</div>
             </a>
           </li>
           
           <li class="li-grid">
-            <a class="li-content" href="//www.daraz.pk/womens-lifestyle-magazines/?up_id=142758941&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=142758941&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.4" data-aplus-ae="x3_59339a28">
+            <a class="li-content" href="//www.daraz.pk/automotive-torsion-bars/?up_id=122004262&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=122004262&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.4" data-aplus-ae="x3_4a6b0db8">
               <div class="image-container img-wrap">
-                <img src="https://static-01.daraz.pk/p/18ffd02ac5241eb553a78e596436e615.jpg" alt="Womens Lifestyle Magazines">
+                <img src="https://static-01.daraz.pk/p/314a71f24ec1bd1bbc33cfd3f1105d0a.jpg" alt="Torsion Bars">
               </div>
-              <div class="category-name">Womens Lifestyle Magazines</div>
+              <div class="category-name">Torsion Bars</div>
             </a>
           </li>
           
           <li class="li-grid">
-            <a class="li-content" href="//www.daraz.pk/automotive-alternators-generators-bearings/?up_id=119920897&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=119920897&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.5" data-aplus-ae="x4_1063c2d1">
+            <a class="li-content" href="//www.daraz.pk/sd-sdhc-memory-cards/?up_id=109990678&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=109990678&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.5" data-aplus-ae="x4_602c420b">
               <div class="image-container img-wrap">
-                <img src="https://static-01.daraz.pk/p/0ae5f7707319dbf5eade8aeec8d3d6bd.jpg" alt="Bearings">
+                <img src="https://static-01.daraz.pk/p/3ce3597c367586de756df4ea0db12a65.jpg" alt="SD &amp; SDHC Cards">
               </div>
-              <div class="category-name">Bearings</div>
+              <div class="category-name">SD &amp; SDHC Cards</div>
             </a>
           </li>
           
           <li class="li-grid">
-            <a class="li-content" href="//www.daraz.pk/tablets/?up_id=1692783&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=1692783&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.6" data-aplus-ae="x5_6815f179">
+            <a class="li-content" href="//www.daraz.pk/camera-compact-flash-cards/?up_id=179224797&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=179224797&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.6" data-aplus-ae="x5_749e3ce">
               <div class="image-container img-wrap">
-                <img src="https://static-01.daraz.pk/original/c48889560a2dacc064245e1dd7c5c8a6.jpg" alt="Tablets">
+                <img src="https://static-01.daraz.pk/p/7a05199a1e61d8bbafbfeefdd8134fcd.jpg" alt="Compact Flash Cards">
               </div>
-              <div class="category-name">Tablets</div>
+              <div class="category-name">Compact Flash Cards</div>
             </a>
           </li>
           
           <li class="li-grid">
-            <a class="li-content" href="//www.daraz.pk/automotive-alternators-generators-brackets/?up_id=153624286&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=153624286&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.7" data-aplus-ae="x6_43a7f892">
+            <a class="li-content" href="//www.daraz.pk/milk-formula/?up_id=130338110&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=130338110&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.7" data-aplus-ae="x6_77c052bc">
               <div class="image-container img-wrap">
-                <img src="https://static-01.daraz.pk/p/67f42f24e8c323d5d62ea08d582a8bb8.jpg" alt="Brackets">
+                <img src="https://static-01.daraz.pk/p/0705d3303a26c6eb7fff224a2e0db154.jpg" alt="Infant (0 - 6 mnths)">
               </div>
-              <div class="category-name">Brackets</div>
+              <div class="category-name">Infant (0 - 6 mnths)</div>
             </a>
           </li>
           
           <li class="li-grid">
-            <a class="li-content" href="//www.daraz.pk/life-magazines/?up_id=246551398&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=246551398&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.8" data-aplus-ae="7">
+            <a class="li-content" href="//www.daraz.pk/eyewear-sunglasses-169/?up_id=112602744&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=112602744&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.8" data-aplus-ae="7">
               <div class="image-container img-wrap">
-                <img src="https://static-01.daraz.pk/p/mdc/52cecc13d5bd95f76c9b3f7bebdd4c32.jpg" alt="Life Magazines">
+                <img src="https://static-01.daraz.pk/p/b6f957cc07c6ab02324c051052365d64.jpg" alt="Sunglasses">
               </div>
-              <div class="category-name">Life Magazines</div>
+              <div class="category-name">Sunglasses</div>
             </a>
           </li>
           
           <li class="li-grid">
-            <a class="li-content" href="//www.daraz.pk/professional-video-camera/?up_id=2000924&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=2000924&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.9" data-aplus-ae="8">
+            <a class="li-content" href="//www.daraz.pk/eyewear-eyeglasses-166/?up_id=138346953&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=138346953&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.9" data-aplus-ae="8">
               <div class="image-container img-wrap">
-                <img src="https://static-01.daraz.pk/original/95688d2a1ad480a7f7b7a2c1ade8ac07.jpg" alt="Professional Video Camera">
+                <img src="https://static-01.daraz.pk/p/8df6bcb395a22ae46d055952697f9b57.jpg" alt="Eyeglasses">
               </div>
-              <div class="category-name">Professional Video Camera</div>
+              <div class="category-name">Eyeglasses</div>
             </a>
           </li>
           
           <li class="li-grid">
-            <a class="li-content" href="//www.daraz.pk/toys-drone/?up_id=266074159&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=266074159&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.10" data-aplus-ae="9">
+            <a class="li-content" href="//www.daraz.pk/toys-drone/?up_id=238455249&amp;from=hp_categories&amp;searchFlag=1&amp;item_id=238455249&amp;version=v2" exp-tracking="category" data-spm-anchor-id="a2a0e.home.categories.10" data-aplus-ae="9">
               <div class="image-container img-wrap">
-                <img src="https://static-01.daraz.pk/p/b6e0945635ae55508f6d9b26aabf8260.jpg" alt="drone">
+                <img src="https://static-01.daraz.pk/p/bf085b1f204803b3b1c527fa89faab76.jpg" alt="drone">
               </div>
               <div class="category-name">drone</div>
             </a>
@@ -1774,15 +1774,23 @@ with(b)with(body)with(insertBefore(createElement("script"),firstChild))setAttrib
 
 
 
-<iframe src="https://itscenter.alipay.com/home/pc.htm?apikey=lazada_voyager&amp;token=lazada_1673913f399850e70ecbd8c14cdc442b&amp;userid=&amp;sid=&amp;href=https%3A%2F%2Fwww.daraz.pk%2F" data-spm-act-id="0.0.0.0.0" style="display: none;"></iframe><script></script><script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","//connect.facebook.net/en_US/fbevents.js");fbq("init",google_tag_manager["GTM-KJ7SN2Q"].macro(7));fbq("init",google_tag_manager["GTM-KJ7SN2Q"].macro(8));fbq("track","PageView");</script><script type="text/javascript" id="">var userId=google_tag_manager["GTM-KJ7SN2Q"].macro(10);userId&&""!==userId&&UA.then(function(b){b.channel.attributes.set({userID:google_tag_manager["GTM-KJ7SN2Q"].macro(12)}).then(function(a){console.log("userID set!")})["catch"](function(a){console.error("An error occured while setting userID attribute: %s",a)})});</script><script type="text/javascript" id="">!function(a,f,m,g,n){var c,h="Promise"in a,d={then:function(){return d},"catch":function(b){return b(Error("Airship SDK Error: Unsupported browser")),d}},l=h?new Promise(function(b,e){c=function(k,p){k?e(k):b(p)}}):d;l._async_setup=function(b){if(h)try{c(null,b(n))}catch(e){c(e)}};a[g]=l;a=f.createElement("script");a.src=m;a.async=!0;a.id="_uasdk";a.rel=g;f.head.appendChild(a)}(window,document,"https://aswpsdkeu.com/notify/v1/ua-sdk.min.js","UA",{workerUrl:"/push-worker.js",registrationDomain:"www.daraz.pk",
+<script></script><iframe src="https://itscenter.alipay.com/home/pc.htm?apikey=lazada_voyager&amp;token=lazada_48cff02572837335b171a739cba964d9&amp;userid=&amp;sid=&amp;href=https%3A%2F%2Fwww.daraz.pk%2F" style="display: none;"></iframe><script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","//connect.facebook.net/en_US/fbevents.js");fbq("init",google_tag_manager["GTM-KJ7SN2Q"].macro(7));fbq("init",google_tag_manager["GTM-KJ7SN2Q"].macro(8));fbq("track","PageView");</script><script type="text/javascript" id="">var userId=google_tag_manager["GTM-KJ7SN2Q"].macro(10);userId&&""!==userId&&UA.then(function(b){b.channel.attributes.set({userID:google_tag_manager["GTM-KJ7SN2Q"].macro(12)}).then(function(a){console.log("userID set!")})["catch"](function(a){console.error("An error occured while setting userID attribute: %s",a)})});</script><script type="text/javascript" id="">!function(a,f,m,g,n){var c,h="Promise"in a,d={then:function(){return d},"catch":function(b){return b(Error("Airship SDK Error: Unsupported browser")),d}},l=h?new Promise(function(b,e){c=function(k,p){k?e(k):b(p)}}):d;l._async_setup=function(b){if(h)try{c(null,b(n))}catch(e){c(e)}};a[g]=l;a=f.createElement("script");a.src=m;a.async=!0;a.id="_uasdk";a.rel=g;f.head.appendChild(a)}(window,document,"https://aswpsdkeu.com/notify/v1/ua-sdk.min.js","UA",{workerUrl:"/push-worker.js",registrationDomain:"www.daraz.pk",
 mixedRegistrationDomains:!0,secureBridgeUrl:"https://daraz-by.accengage.net/pushweb/assets/secure-bridge.html",allowedDomains:["https://daraz.pk","https://www.daraz.pk"],vapidPublicKey:"BPnqL43zhLkdfbcXnJ81dfEmZd3qDE4352_xF4qi_iwI6vFZQzr-vbTS1zPgc-OWwF-5vbk54Bx5WaEppzh6ylg",appKey:"aATXTCQJSA6Gcn3oTbDU9Q",token:"MTphQVRYVENRSlNBNkdjbjNvVGJEVTlROnFXQVYwSjBzYlkzY29wLVdGajkwMlN5VW0tZmw0OWpvUEpyQVhxNzU5WU0"});</script>
 <script type="text/javascript" id="">var IDBOpenDBRequest=indexedDB.open("ACC",2);
 IDBOpenDBRequest.onsuccess=function(a){a=a.target.result;0!=a.objectStoreNames.length&&(a=a.transaction(["settings"],"readwrite"),a=a.objectStore("settings"),a=a.get("me"),a.onsuccess=function(e){var c=e.target.result;UA.then(function(b){b.channel&&c&&"Y"==c.system_optin_notifs&&"granted"==Notification.permission?b.channel.optOut():(b.register(),b.getChannel().then(function(f){console.log("Channel ID: %s",f.id);b.channel.attributes.set({Country:"PK"}).then(function(d){console.log("Country set!")})["catch"](function(d){console.error("An error occured while setting Country attribute: %s",d)})}))})})};</script><script type="text/javascript" id="">(function(a,b,e){if(!a.snaptr){var c=a.snaptr=function(){c.handleRequest?c.handleRequest.apply(c,arguments):c.queue.push(arguments)};c.queue=[];var d="script";a=b.createElement(d);a.async=!0;a.src=e;b=b.getElementsByTagName(d)[0];b.parentNode.insertBefore(a,b)}})(window,document,"https://sc-static.net/scevent.min.js");snaptr("init","ef9af7c4-186f-45d5-b35c-5155fbeb90d7",{user_email:"0"});snaptr("track","PAGE_VIEW");</script><script type="text/javascript" id="">(function(){var a=document.createElement("script");a.type="text/javascript";a.async=!0;a.src="https://c.o-s.io/56236/tracker.js";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})();</script>
 <script type="text/javascript" id="">_atrk_opts={atrk_acct:"pfaXu1Y1Mn20Io",domain:"daraz.pk",dynamic:!0};(function(){var a=document.createElement("script");a.type="text/javascript";a.async=!0;a.src="https://certify-js.alexametrics.com/atrk.js";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})();</script>
 <noscript><img src="https://certify.alexametrics.com/atrk.gif?account=pfaXu1Y1Mn20Io" style="display:none" height="1" width="1" alt=""></noscript>
-  <script type="text/javascript" id="" src="https://www.googletagmanager.com/gtag/js"></script><div style="display: none; visibility: hidden;"><script type="text/javascript">var gtm=google_tag_manager[google_tag_manager["GTM-KJ7SN2Q"].macro(17)];
+  <script type="text/javascript" id="" src="https://www.googletagmanager.com/gtag/js"></script>
+<script type="text/javascript" id="">window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date);</script><script type="text/javascript" id="">UA.then(function(b){b.plugins.load("html-prompt","https://aswpsdkus.com/notify/v1/ua-html-prompt.min.js",{stylesheet:"https://g.alicdn.com/daraz-fe/static/1.0.10/airship/airship-popup.css",askAgainDelay:168,auto:!0,i18n:{en:{title:"Daz wants to be friends with you",message:"Become friends with Daz to be the first one to know about exclusive deals and discounts.",accept:"Be Friends",deny:"Not Interested"}},logo:"https://mobilecrm.accengage.com/images/logo_application/1511.png"}).then(function(a){console.log(a);
+a.prompt()})["catch"](function(a){console.log(a)})});</script><div style="display: none; visibility: hidden;"><script type="text/javascript">var gtm=google_tag_manager[google_tag_manager["GTM-KJ7SN2Q"].macro(20)];
 try{var memory=!0,getQueryString=function(a){a=a.replace(/[\[]/,"\\[").replace(/[\]]/,"\\]");a=new RegExp("[\\?\x26]"+a+"\x3d([^\x26#]*)");a=a.exec(location.search);return null===a?"":decodeURIComponent(a[1].replace(/\+/g," "))},d=new Date,ed=new Date(d.getFullYear(),d.getMonth()+6,d.getDate(),d.getHours(),d.getMinutes(),d.getSeconds(),d.getMilliseconds()),domain=-1<window.location.host.toLowerCase().indexOf("shop.com.mm")?"shop.com.mm":"daraz",referrer=document.referrer.toLowerCase();if(""==referrer||
-void 0!==referrer.split("/")[2]&&-1==referrer.split("/")[2].indexOf(domain)){var source=getQueryString("utm_source"),medium=getQueryString("utm_medium"),campaign=getQueryString("utm_campaign"),term=getQueryString("utm_term"),content=getQueryString("utm_content"),gclid=getQueryString("gclid");1==referrer.includes("google")&&(source="google",medium="organic",""!=gclid&&(source="google",medium="cpc"));if(""!=google_tag_manager["GTM-KJ7SN2Q"].macro(18)||""!=google_tag_manager["GTM-KJ7SN2Q"].macro(19)||""!=google_tag_manager["GTM-KJ7SN2Q"].macro(20)||""!=google_tag_manager["GTM-KJ7SN2Q"].macro(21))if(google_tag_manager["GTM-KJ7SN2Q"].macro(22)!=
-source||google_tag_manager["GTM-KJ7SN2Q"].macro(23)!=medium||google_tag_manager["GTM-KJ7SN2Q"].macro(24)!=campaign||google_tag_manager["GTM-KJ7SN2Q"].macro(25)!=gclid)document.cookie="mi_p_source\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(26))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_medium\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(27))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_campaign\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(28))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_term\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(29))+
-"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_content\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(30))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_gclid\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(31))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;";memory&&""==referrer&&""==source&&""==medium&&""==campaign&&""==term&&""==content&&""==gclid||(document.cookie="mi_source\x3d"+encodeURI(source)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_medium\x3d"+
-encodeURI(medium)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_campaign\x3d"+encodeURI(campaign)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_term\x3d"+encodeURI(term)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_content\x3d"+encodeURI(content)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_gclid\x3d"+encodeURI(gclid)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;")}gtm.onHtmlSuccess(32)}catch(a){gtm.onHtmlFailure(32)};</script></div><script type="text/javascript" id="">(function(b,c){var a=b.createElement(c),d=b.getElementsByTagName(c)[0],e=+new Date/72E5|0;a.async=1;a.crossOrigin="anonymous";a.src="https://assets.alicdn.com/g/secdev/entry/index.js?t\x3d"+e;d.parentNode.insertBefore(a,d)})(document,"script");</script>
+void 0!==referrer.split("/")[2]&&-1==referrer.split("/")[2].indexOf(domain)){var source=getQueryString("utm_source"),medium=getQueryString("utm_medium"),campaign=getQueryString("utm_campaign"),term=getQueryString("utm_term"),content=getQueryString("utm_content"),gclid=getQueryString("gclid");1==referrer.includes("google")&&(source="google",medium="organic",""!=gclid&&(source="google",medium="cpc"));if(""!=google_tag_manager["GTM-KJ7SN2Q"].macro(21)||""!=google_tag_manager["GTM-KJ7SN2Q"].macro(22)||""!=google_tag_manager["GTM-KJ7SN2Q"].macro(23)||""!=google_tag_manager["GTM-KJ7SN2Q"].macro(24))if(google_tag_manager["GTM-KJ7SN2Q"].macro(25)!=
+source||google_tag_manager["GTM-KJ7SN2Q"].macro(26)!=medium||google_tag_manager["GTM-KJ7SN2Q"].macro(27)!=campaign||google_tag_manager["GTM-KJ7SN2Q"].macro(28)!=gclid)document.cookie="mi_p_source\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(29))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_medium\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(30))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_campaign\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(31))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_term\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(32))+
+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_content\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(33))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_gclid\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(34))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;";memory&&""==referrer&&""==source&&""==medium&&""==campaign&&""==term&&""==content&&""==gclid||(document.cookie="mi_source\x3d"+encodeURI(source)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_medium\x3d"+
+encodeURI(medium)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_campaign\x3d"+encodeURI(campaign)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_term\x3d"+encodeURI(term)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_content\x3d"+encodeURI(content)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_gclid\x3d"+encodeURI(gclid)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;")}gtm.onHtmlSuccess(35)}catch(a){gtm.onHtmlFailure(35)};</script></div><script type="text/javascript" id="">(function(b,c){var a=b.createElement(c),d=b.getElementsByTagName(c)[0],e=+new Date/72E5|0;a.async=1;a.crossOrigin="anonymous";a.src="https://assets.alicdn.com/g/secdev/entry/index.js?t\x3d"+e;d.parentNode.insertBefore(a,d)})(document,"script");</script>
+<div style="display: none; visibility: hidden;"><script type="text/javascript">var gtm=google_tag_manager[google_tag_manager["GTM-KJ7SN2Q"].macro(86)];
+try{var memory=!0,getQueryString=function(a){a=a.replace(/[\[]/,"\\[").replace(/[\]]/,"\\]");a=new RegExp("[\\?\x26]"+a+"\x3d([^\x26#]*)");a=a.exec(location.search);return null===a?"":decodeURIComponent(a[1].replace(/\+/g," "))},d=new Date,ed=new Date(d.getFullYear(),d.getMonth()+6,d.getDate(),d.getHours(),d.getMinutes(),d.getSeconds(),d.getMilliseconds()),domain=-1<window.location.host.toLowerCase().indexOf("shop.com.mm")?"shop.com.mm":"daraz",referrer=document.referrer.toLowerCase();if(""==referrer||
+void 0!==referrer.split("/")[2]&&-1==referrer.split("/")[2].indexOf(domain)){var source=getQueryString("utm_source"),medium=getQueryString("utm_medium"),campaign=getQueryString("utm_campaign"),term=getQueryString("utm_term"),content=getQueryString("utm_content"),gclid=getQueryString("gclid");1==referrer.includes("google")&&(source="google",medium="organic",""!=gclid&&(source="google",medium="cpc"));if(""!=google_tag_manager["GTM-KJ7SN2Q"].macro(87)||""!=google_tag_manager["GTM-KJ7SN2Q"].macro(88)||""!=google_tag_manager["GTM-KJ7SN2Q"].macro(89)||""!=google_tag_manager["GTM-KJ7SN2Q"].macro(90))if(google_tag_manager["GTM-KJ7SN2Q"].macro(91)!=
+source||google_tag_manager["GTM-KJ7SN2Q"].macro(92)!=medium||google_tag_manager["GTM-KJ7SN2Q"].macro(93)!=campaign||google_tag_manager["GTM-KJ7SN2Q"].macro(94)!=gclid)document.cookie="mi_p_source\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(95))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_medium\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(96))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_campaign\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(97))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_term\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(98))+
+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_content\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(99))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_p_gclid\x3d"+encodeURI(google_tag_manager["GTM-KJ7SN2Q"].macro(100))+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;";memory&&""==referrer&&""==source&&""==medium&&""==campaign&&""==term&&""==content&&""==gclid||(document.cookie="mi_source\x3d"+encodeURI(source)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_medium\x3d"+
+encodeURI(medium)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_campaign\x3d"+encodeURI(campaign)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_term\x3d"+encodeURI(term)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_content\x3d"+encodeURI(content)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;",document.cookie="mi_gclid\x3d"+encodeURI(gclid)+"; expires\x3d"+ed.toUTCString()+"; path\x3d/;")}gtm.onHtmlSuccess(101)}catch(a){gtm.onHtmlFailure(101)};</script></div><script type="text/javascript" id="">(function(b,c){var a=b.createElement(c),d=b.getElementsByTagName(c)[0],e=+new Date/72E5|0;a.async=1;a.crossOrigin="anonymous";a.src="https://assets.alicdn.com/g/secdev/entry/index.js?t\x3d"+e;d.parentNode.insertBefore(a,d)})(document,"script");</script>

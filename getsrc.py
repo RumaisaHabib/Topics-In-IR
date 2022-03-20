@@ -80,13 +80,14 @@ driver.get(url)
 # html = html.get_attribute('innerHTML')
 
 # html = driver.page_source
-time.sleep(20)
+# time.sleep(20)
 
 
 
 # Get all elements labelled 'img'
 images = driver.find_elements(By.TAG_NAME, 'img')
 image_srcs = [i.get_attribute('src') for i in images]
+
 
 print("===== GETTING WEBPAGE SIZE =====")
 total_bytes = []
@@ -130,6 +131,7 @@ with open(host+"/images.txt", "w") as f:
             # Get original image size
             img_size = int(meta.get(name="Content-Length"))/BYTE_SIZE
             # Add data to results
+            print(i)
             results.loc[image_name] = [i, img_size, "-"]
             num_img+=1
         except HTTPError as e:
@@ -192,8 +194,9 @@ html = driver.execute_script("return document.body.innerHTML")
 # html = driver.find_element_by_xpath("//*").get_attribute("outerHTML")
 html = re.sub("src=\"//", "src=\"https://",html)
 html = re.sub("src=\"/", "src=\""+ url + "/",html)
-
-
+html = re.sub("src=\"portal/", "src=\"" + url + "/portal/",html)
+html = re.sub("srcset=\"portal/", "srcset=\"" + url + "/portal/",html)
+html = re.sub(", portal/", ", " + url + "/portal/",html)
 f = open(host+"/source.html", "w")
 f.write(html)
 f.close()
