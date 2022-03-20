@@ -14,6 +14,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 import pandas as pd
+import time
 import json
 from colorama import Fore
 from tqdm import tqdm
@@ -79,7 +80,7 @@ driver.get(url)
 # html = html.get_attribute('innerHTML')
 
 # html = driver.page_source
-
+time.sleep(20)
 
 
 

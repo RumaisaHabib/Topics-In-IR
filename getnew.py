@@ -78,10 +78,12 @@ def reduce_to(image, final_size):
     if(size>final_size):
         print("Black and white-d")
         isBlack = True
-        img = PIL.Image.open("./" + host + "/reduced_" + image)
-        img1 = img.convert("L")
-        img1.show()
-        img1.save("./" + host + "/reduced_" + image)
+        # img = PIL.Image.open("./" + host + "/reduced_" + image)
+        # info = img.info
+        # img1 = img.convert("RGBA").convert("L")
+        # img1.show()
+        # img1.save("./" + host + "/reduced_" + image, **info)
+        os.system("convert " + host + "/reduced_" + image +  " -set colorspace Gray -separate -average " + host + "/reduced_" + image)
     
     factor, _, size = reduceQuality(size, final_size, "reduced_" + image)
 
@@ -110,6 +112,7 @@ def reduce_to(image, final_size):
         # img = PIL.Image.open("./" + host + "/reduced_" + image)
         # img1 = img.convert('RGBA').convert("P", palette=PIL.Image.ADAPTIVE, colors=1)
         # img1.save("./" + host + "/reduced_" + image)
+        os.system("convert -size 800x800 xc:transparent " + host + "/reduced_" + image)
 
     if not isFactored:
         factor = 100
@@ -138,9 +141,9 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
         replace_with = "https://localhost:4696/"+host+"/reduced_"+ image
         
         html = html.replace(to_replace, replace_with)
-        if removed:
-            to_replace = "https://localhost:4696/"+host+"/reduced_"+ image + "\" "
-            replace_with = "https://localhost:4696/"+host+"/reduced_"+ image + "\" " + "style=\"display:none\""
+        # if removed:
+        #     to_replace = "https://localhost:4696/"+host+"/reduced_"+ image + "\" "
+        #     replace_with = "https://localhost:4696/"+host+"/reduced_"+ image + "\" " + "style=\"display:none\""
         sys.stdout.flush()
     except Exception as e:
         print("ERROR:",e)
