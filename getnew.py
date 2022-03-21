@@ -37,16 +37,18 @@ with open(host+"/source.html", "r", encoding='utf-8') as f:
     html= f.read()
     
 def reduceQuality(size,final_size, orig, new):
+    if (size<=final_size):
+        return 100, False, size
     factor = 50
     isFactored = False
-    while (size>final_size and factor>5):
+    while (factor>5):
         isFactored = True
 
         # image_rescaled = rescale(img, factor, anti_aliasing=False)
         # imsave(host + "/reduced_" + image, image_rescaled)
         os.system("convert " + host + "/" + orig + " -quality " + str(factor) + "% " + host + "/" + new)
         size = os.path.getsize(host + "/" + new)
-        if (size == ((ERROR_MARGIN*final_size)-final_size) or size == ((ERROR_MARGIN*final_size)+final_size) or factor <= 5):
+        if (size == (final_size-(ERROR_MARGIN*final_size)) or size == ((ERROR_MARGIN*final_size)+final_size) or factor <= 5):
             break
         #print('factor {} image of size {}'.format(factor,size))
         if(size > final_size):
@@ -138,6 +140,8 @@ print("===== GENERATING NEW WEBPAGE =====")
 for image in tqdm(image_names, bar_format=PROGRESS_BAR):
     try:
         if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
+            continue
+        if results.loc["Reduction Factor"] == "-":
             continue
         target = results.loc[image,"Target Size of Image"]
         
