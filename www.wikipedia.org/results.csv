@@ -1,2 +1,0 @@
-New Name,Image Name,Image Source,Original Size (KB),New Size (KB),1/SSIM Value,Area/1000,Normalized Area,Image Value,Reduction Factor,Target Size of Image,Reduced Size of Image,Factor,Black and White,Removed
-Wikipedia-logo-v2.webp,Wikipedia-logo-v2.png,https://www.wikipedia.org/portal/wikipedia.org/assets/img/Wikipedia-logo-v2.png,15.4580078125,13.701171875,1.2557197878636188,36.6,0.0661461721969204,1.3218659600605391,1.0,0.3493078125000011,0.0,3.0,True,True
