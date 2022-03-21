@@ -21,7 +21,7 @@ PHONE_WIDTH = 360
 PHONE_HEIGHT = 640
 PIXEL_RATIO = 3.0
 PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
-ERROR_MARGIN = 0.01 # 1%
+ERROR_MARGIN = 0.1 # 10%
 
 
 url = sys.argv[1]
@@ -40,8 +40,11 @@ def reduceQuality(size,final_size, orig, new):
     if (size<=final_size):
         return 100, False, size
     factor = 50
+    min = 0
+    max = 100
     isFactored = False
     while (factor>5):
+
         isFactored = True
 
         # image_rescaled = rescale(img, factor, anti_aliasing=False)
@@ -51,10 +54,12 @@ def reduceQuality(size,final_size, orig, new):
         if (size == (final_size-(ERROR_MARGIN*final_size)) or size == ((ERROR_MARGIN*final_size)+final_size) or factor <= 5):
             break
         #print('factor {} image of size {}'.format(factor,size))
+        print(size, factor)
         if(size > final_size):
-            factor = math.floor(factor / 2)
+            max = factor
         else:
-            factor = math.floor(0.75*2*factor)
+            min = factor
+        factor = round(((min+max)/2),4)
     return factor, isFactored, size
 
 def reduce_to(image, final_size):
@@ -141,7 +146,7 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
     try:
         if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
             continue
-        if results.loc["Reduction Factor"] == "-":
+        if results.loc[image,"Reduction Factor"] == "-":
             continue
         target = results.loc[image,"Target Size of Image"]
         
