@@ -43,8 +43,10 @@ def reduceQuality(size,final_size, orig, new):
     min = 0
     max = 100
     isFactored = False
+    old_size = size
+    new_size = 0
+    print("new image")
     while (factor>5):
-
         isFactored = True
 
         # image_rescaled = rescale(img, factor, anti_aliasing=False)
@@ -53,6 +55,10 @@ def reduceQuality(size,final_size, orig, new):
         size = os.path.getsize(host + "/" + new)
         if (size == (final_size-(ERROR_MARGIN*final_size)) or size == ((ERROR_MARGIN*final_size)+final_size) or factor <= 5):
             break
+        if old_size == new_size:
+            break
+        old_size = new_size
+        new_size = size
         #print('factor {} image of size {}'.format(factor,size))
         print(size, factor)
         if(size > final_size):
@@ -60,6 +66,7 @@ def reduceQuality(size,final_size, orig, new):
         else:
             min = factor
         factor = round(((min+max)/2),4)
+
     return factor, isFactored, size
 
 def reduce_to(image, final_size):
@@ -77,7 +84,7 @@ def reduce_to(image, final_size):
     os.system("cp " + host + "/" + image + " " + host + "/reduced_" + image)
     
     # STEP 1: Reduce quality 
-    factor, isFactored, size = reduceQuality(size, final_size, image, "reduced_"+image)
+    factor, isFactored, size = reduceQuality(size, final_size, image, "reduced_" +image)
 
     print('factor {} image of size {}'.format(factor,size))
     
