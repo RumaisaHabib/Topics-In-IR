@@ -76,16 +76,7 @@ except:
 
 driver.get(url)
 
-# save source html
-# html = driver.find_element(By.XPATH, '//*')
-# html = html.get_attribute('innerHTML')
-
-# html = driver.page_source
-# time.sleep(20)
-
-
-
-# Get all elements labelled 'img'
+# Get all elements labelled 'img' and their sources
 images = driver.find_elements(By.TAG_NAME, 'img')
 image_srcs = [i.get_attribute('src') for i in images]
 
@@ -94,45 +85,52 @@ print("===== GETTING WEBPAGE SIZE =====")
 total_bytes = []
 for entry in tqdm(driver.get_log('performance'), bar_format=PROGRESS_BAR):
     if "Network.dataReceived" in str(entry):
+        # Get the page contents sizes if found
         r = re.search(r'encodedDataLength\":(.*?),', str(entry))
         total_bytes.append(int(r.group(1)))
         kb = round((float(sum(total_bytes) / BYTE_SIZE)), 2)
 print(kb, "KBs")
 page_data["kiloBytesIn"] = kb
 
+# Get the scrollable height and width of the webpage
 page_data["scrollHeight"] = driver.execute_script("return document.body.scrollHeight")
 page_data["scrollWidth"] = driver.execute_script("return document.body.scrollWidth") 
 
+# Initialize the number of images in the page, the results document, and the sources
 num_img = 0
 results = pd.DataFrame(columns=("Image Source", "Image Name", "Original Size (KB)", "New Size (KB)")).set_index("Image Name")
 all_sources = []
 print("===== SCRAPING IMAGES =====")
 with open(host+"/images.txt", "w") as f:
     for i in tqdm(set(image_srcs), bar_format=PROGRESS_BAR):
-        # i = image.get_attribute('src')
         if not i or i in all_sources:
+            # If the source is 'None' type or already attempted to be downloaded, do not download
             continue
         all_sources.append(i)
         try:
-            # image_name = i.split("/")[-1]
             path,image_name=os.path.split(i)
             image_name = image_name.split("?")[0]
             if image_name[-3:] == "gif" or os.path.exists(host + "/" +image_name):
+                # Current implementation does not handle gifs or different images of the same name
                 continue
-            # Write to images
+            
+            # Image downloading
             try:
                 os.system("cd " + host + " && wget -q --show-progress " + i)
             except:
                 continue
+            
+            # Keeping a log of image sources
             f.write(i + "\n")
             path = urllib.request.urlopen(i)
+            
+            # Getting the metadata of the image for its size
             meta = path.info()
-            # Image name for dataframe
             
             # Get original image size
             img_size = int(meta.get(name="Content-Length"))/BYTE_SIZE
+            
             # Add data to results
-            print(i)
             results.loc[image_name] = [i, img_size, "-"]
             num_img+=1
         except HTTPError as e:
@@ -140,14 +138,14 @@ with open(host+"/images.txt", "w") as f:
                 print(e)
         except Exception as e:
             print(e)
-                
-        # Writes image URL source to a file labelled images.txt in the host directory
+
+# Store number of images
 page_data["numImages"] = num_img
 
-# print("===== DOWNLOADING IMAGES =====")
-# os.system("cd " + host + " && wget -q --show-progress -i images.txt")
+# Removing duplicates in the results dataframe
 results = results[~results.index.duplicated(keep='first')]
 
+# Remove duplicates in source log as well
 lines = open(host+'/images.txt', 'r').readlines()
 lines_set = set(lines)
 out  = open(host+'/images.txt', 'w')
@@ -155,29 +153,22 @@ out  = open(host+'/images.txt', 'w')
 for line in lines_set:
     out.write(line)
 
+# Get image names from local directory
 image_names = os.listdir(host)
+# Files to ignore in this step
+ignore = ["page_data.json", "results.csv", "images.txt" , "source.html" , "original.png"]
 for image in image_names:
-    if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
+    if image in ignore:
         continue
     if len(image.split("?"))>1:
+        # To keep file names short, remove the query from the image names
         os.rename(host + "/" +image, host + "/" + image.split("?")[0])
         image = image.split("?")[0]
-    new_image_name=image.split(".")[0] + ".webp"
-    # format = Image.open(host + "/" +image).format
-    # print("cd " + host + " && convert " +format + ":" + image +" -define webp:lossless=true " + new_image_name + " && rm " +image)
-    os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + new_image_name)
-    old_size = os.path.getsize(host + "/" + image)/1024
-    new_size = os.path.getsize(host + "/" + new_image_name)/1024
-    if (old_size < new_size):
-        results.loc[image, "New Name"] = image
-        results.loc[image, "New Size (KB)"] = old_size
-        os.system("cd " + host + " && rm " + new_image_name )
-        
-    else:
-        results.loc[image, "New Name"] = new_image_name
-        results.loc[image, "New Size (KB)"] = new_size
-        os.system("cd " + host + " && rm " +image )
-    # results.loc[image, "New Size (KB)"] = os.stat(host + "/" + new_image_name).st_size/1024
+
+    size = os.path.getsize(host + "/" + image)/1024
+    results.loc[image, "New Name"] = image
+    results.loc[image, "New Size (KB)"] = size
+
 # Dump outputs to physical memory
 f = open(host+"/page_data.json", "w")
 json.dump(page_data, f)
@@ -185,15 +176,16 @@ f.close()
 
 results.dropna(axis=0,inplace=True)
 results.to_csv(host+"/results.csv")
-# os.system("cd " + host + " && python3 -m http.server 8000")
 
-# html_file = os.getcwd() + "//" + host + "//source.html"
-# driver.get("file:///" + html_file)
+# Save the page HTML 
 html = driver.execute_script("return document.body.innerHTML")
-# html = driver.find_element_by_xpath("//*").get_attribute("outerHTML")
+
+# Replace local references with absolute paths
 html = re.sub("src=\"//", "src=\"https://",html)
 html = re.sub("src=\"/", "src=\""+ url + "/",html)
 html = re.sub("src=\"portal/", "src=\"" + url + "/portal/",html)
+
+# Remove source set  (easier for debugging)
 html = re.sub("srcset=\"portal/", "srcset=\"" + url + "/portal/",html)
 html = re.sub(", portal/", ", " + url + "/portal/",html)
 f = open(host+"/source.html", "w")
@@ -201,7 +193,6 @@ f.write(html)
 f.close()
 
 driver.save_screenshot(host+"/original.png")
-# # driver.save_screenshot(host+"/original.png")
 driver.close()
 
 
