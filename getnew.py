@@ -69,6 +69,26 @@ def reduceQuality(size,final_size, orig, new):
 
     return factor, isFactored, size
 
+def try_webp_reduce(image, final_size):
+    new_image_name = image.split(".")[0] + ".webp"
+    os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + new_image_name)
+    old_size = os.path.getsize(host + "/" + image)
+    new_size = os.path.getsize(host + "/" + new_image_name)
+    if (new_size <= final_size):
+        # results.loc[image, "New Name"] = image
+        # results.loc[image, "New Size (KB)"] = old_size
+        # os.system("cd " + host + " && rm " + new_image_name )
+        return new_size/1024, 100, False, False, True
+        
+    else:
+        os.system("cd " + host + " && convert " +image +" -define webp:target-size="+str(final_size) + " " + new_image_name)
+        new_size = os.path.getsize(host + "/" + new_image_name)
+        
+        if(new_size <= final_size):
+            return new_size/1024, 100, False, False, True
+    return new_size/1024, 100, False, False, False
+
+
 def reduce_to(image, final_size):
     final_size = final_size*1024
     print(image)
@@ -82,6 +102,7 @@ def reduce_to(image, final_size):
     # Make new image (reduced)
     org_width, org_height = (Image.open(host + "/" + image)).size
     os.system("cp " + host + "/" + image + " " + host + "/reduced_" + image)
+    
     
     # STEP 1: Reduce quality 
     factor, isFactored, size = reduceQuality(size, final_size, image, "reduced_" +image)
@@ -158,8 +179,14 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
         target = results.loc[image,"Target Size of Image"]
         
         # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
-        results.loc[image,"Reduced Size of Image"], results.loc[image,"Factor"], removed,results.loc[image,"Color Depth Reduction"] = reduce_to(image,target)
-        results.loc[image,"Removed"] = removed
+        size, factor, removed, color, webpTrue = try_webp_reduce(image, target)
+        if not webpTrue:
+            results.loc[image,"Reduced Size of Image"], results.loc[image,"Factor"], removed,results.loc[image,"Color Depth Reduction"] = reduce_to(image,target)
+            results.loc[image,"Removed"] = removed
+        else:
+            results.loc[image,"Reduced Size of Image"], results.loc[image,"Factor"],results.loc[image,"Color Depth Reduction"] = size, factor, color
+            results.loc[image,"Removed"] = removed
+            
         
         to_replace = results.loc[image,"Image Source"]
         if (removed):
