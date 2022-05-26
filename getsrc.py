@@ -138,8 +138,6 @@ with open(host+"/images.txt", "w") as f:
         except HTTPError as e:
             if e.code == 403:
                 print(e)
-                print("Cannot analyse this site. Aborting...")
-                sys.exit()
         except Exception as e:
             print(e)
                 
