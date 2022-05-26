@@ -190,10 +190,12 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
         
         to_replace = results.loc[image,"Image Source"]
         if (removed):
-            html_list = html.split()
-            insert_at = html_list.index("src=\""+ to_replace + "\"") + 1
-            html_list[insert_at:insert_at] = ["style=display:none"]
-            html = " ".join(html_list)
+            # html_list = html.split()
+            # insert_at = html_list.index("src=\""+ to_replace + "\"") + 1
+            # html_list[insert_at:insert_at] = ["style=display:none"]
+            # html = " ".join(html_list)
+            src_str = "src=\""+ to_replace + "\""
+            html = html.replace(src_str, src_str + " style=display:none")
             continue
             
         print(to_replace)

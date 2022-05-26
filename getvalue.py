@@ -18,7 +18,6 @@ PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
 url = sys.argv[1]
 
 
-# results = pd.DataFrame(columns=("SSIM Value", "Area/1000", "Value"))
 qualities = [25, 50, 75]
 listOfReducedImages = []
 originalImages = []
@@ -48,13 +47,6 @@ for image in image_names:
         os.system("cd " + host + "&& convert " + image + " -quality " + str(i) + "% " + str(i)+"_"+image)
         listOfReducedImages.append(str(i)+"_"+image)
     originalImages.append(image)
-
-# def options():
-#  parser = argparse.ArgumentParser(description="Read image metadata")
-#  parser.add_argument("-o", "--first", help="Input image file.", required=True)
-#  parser.add_argument("-c", "--second", help="Input image file.", required=True)
-#  args = parser.parse_args()
-#  return args
 
 def mse(imageA, imageB):
  # the 'Mean Squared Error' between the two images is the sum of the squared difference between the two images

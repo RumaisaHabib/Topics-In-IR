@@ -164,10 +164,25 @@ for image in image_names:
         # To keep file names short, remove the query from the image names
         os.rename(host + "/" +image, host + "/" + image.split("?")[0])
         image = image.split("?")[0]
+        
+    old_size = os.path.getsize(host + "/" + image)/1024
+    if "svg" in image: # Try converting svg to webp
+        new_image_name=image.split(".")[0] + ".webp"
 
-    size = os.path.getsize(host + "/" + image)/1024
-    results.loc[image, "New Name"] = image
-    results.loc[image, "New Size (KB)"] = size
+        os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + new_image_name)
+        new_size = os.path.getsize(host + "/" + new_image_name)/1024
+        if (old_size < new_size):
+            results.loc[image, "New Name"] = image
+            results.loc[image, "New Size (KB)"] = old_size
+            os.system("cd " + host + " && rm " + new_image_name )
+            
+        else:
+            results.loc[image, "New Name"] = new_image_name
+            results.loc[image, "New Size (KB)"] = new_size
+            os.system("cd " + host + " && rm " +image )
+    else:
+        results.loc[image, "New Name"] = image
+        results.loc[image, "New Size (KB)"] = old_size
 
 # Dump outputs to physical memory
 f = open(host+"/page_data.json", "w")
