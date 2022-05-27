@@ -114,12 +114,6 @@ with open(host+"/images.txt", "w") as f:
                 # Current implementation does not handle gifs or different images of the same name
                 continue
             
-            # Image downloading
-            try:
-                os.system("cd " + host + " && wget -q --show-progress " + i)
-            except:
-                continue
-            
             # Keeping a log of image sources
             f.write(i + "\n")
             path = urllib.request.urlopen(i)
@@ -129,6 +123,12 @@ with open(host+"/images.txt", "w") as f:
             
             # Get original image size
             img_size = int(meta.get(name="Content-Length"))/BYTE_SIZE
+            
+            # Image downloading
+            try:
+                os.system("cd " + host + " && wget -q --show-progress " + i)
+            except:
+                continue
             
             # Add data to results
             results.loc[image_name] = [i, img_size, "-"]

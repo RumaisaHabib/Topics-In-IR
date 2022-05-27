@@ -181,10 +181,10 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
         # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
         size, factor, removed, color, webpTrue = try_webp_reduce(image, target)
         if not webpTrue:
-            results.loc[image,"Reduced Size of Image"], results.loc[image,"Factor"], removed,results.loc[image,"Color Depth Reduction"] = reduce_to(image,target)
+            results.loc[image,"Reduced Size of Image"], results.loc[image,"Quality Factor"], removed,results.loc[image,"Color Depth Reduction"] = reduce_to(image,target)
             results.loc[image,"Removed"] = removed
         else:
-            results.loc[image,"Reduced Size of Image"], results.loc[image,"Factor"],results.loc[image,"Color Depth Reduction"] = size, factor, color
+            results.loc[image,"Reduced Size of Image"], results.loc[image,"Quality Factor"],results.loc[image,"Color Depth Reduction"] = size, factor, color
             results.loc[image,"Removed"] = removed
             
         
@@ -263,4 +263,6 @@ f.close()
 time.sleep(10)
 driver.save_screenshot(host+"/reduced.png")
 driver.close()
+results['Reduced Size of Image'] = results['Reduced Size of Image'].replace('', pd.NA).fillna(results['Target Size of Image'])
+results["Error"] = results["Target Size of Image"] - results["Reduced Size of Image"]
 results.to_csv(host+"/results.csv")
