@@ -78,7 +78,7 @@ PHONE_WIDTH = 360
 PHONE_HEIGHT = 640
 PIXEL_RATIO = 3.0
 PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
-ERROR_MARGIN = 0.05 # 5%
+ERROR_MARGIN = 0.1 # 5%
 
 
 url = sys.argv[1]
@@ -159,7 +159,7 @@ def lossyWebp(size, final_size, orig, new):
         old_size = new_size
         new_size = size
         #print('factor {} image of size {}'.format(factor,size))
-        print(size, factor)
+        print("WEBP", size, factor)
         if(size > final_size):
             max = factor
         else:
@@ -170,22 +170,23 @@ def lossyWebp(size, final_size, orig, new):
 
 def try_webp_reduce(image, final_size):
     new_image_name = image.split(".")[0] + ".webp"
-    os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + new_image_name)
+    os.system("cd " + host + " && convert " +image +" -define webp:lossless=true reduced_" + new_image_name)
     old_size = os.path.getsize(host + "/" + image)
-    new_size = os.path.getsize(host + "/" + new_image_name)
+    new_size = os.path.getsize(host + "/reduced_" + new_image_name)
+    print("LOSSLESS", old_size, new_size)
     if (new_size <= final_size+final_size*ERROR_MARGIN):
         # results.loc[image, "New Name"] = image
         # results.loc[image, "New Size (KB)"] = old_size
         # os.system("cd " + host + " && rm " + new_image_name )
-        return new_size/1024, 100, False, False, True
+        return new_size/1024, 100, False, False, True, new_image_name, 100
         
     else:
         # os.system("cd " + host + " && convert " +image +" -define webp:target-size="+str(final_size) + " " + new_image_name)
         # new_size = os.path.getsize(host + "/" + new_image_name)
-        factor, isfactor, new_size = lossyWebp(old_size, final_size, image, new_image_name)
+        factor, isfactor, new_size = lossyWebp(old_size, final_size, image, "reduced_"+ new_image_name)
         if(new_size <= final_size+final_size*ERROR_MARGIN):
-            return new_size/1024, 100, False, False, True
-    return new_size/1024, 100, False, False, False
+            return new_size/1024, 100, False, False, True, new_image_name, factor
+    return new_size/1024, 100, False, False, False, image, "-"
 
 def webp_lossless(image, final_size):
     new_image_name = image.split(".")[0] + ".webp"
@@ -223,7 +224,7 @@ def jpeg_reduce(image, final_size):
     return name
 
 def reduce_to(image, final_size):
-    final_size = final_size*1024
+    
     print(image)
 
     
@@ -277,7 +278,7 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
         if results.loc[image,"Reduction Factor"] == "-":
             continue
         target = results.loc[image,"Target Size of Image"]
-        
+        target = target*1024
         # if(image.split('.')[-1] == "png"):
         #     newFile.loc[image,"Target Size (KB)"] = target
             
@@ -318,15 +319,19 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
             
         
         # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
-        size, factor, removed, color, webpTrue = try_webp_reduce(image, target)
+        size, factor, removed, color, webpTrue, webp_image, encoding_quality = try_webp_reduce(image, target)
         if not webpTrue:
 
-            results.loc[image,"Reduced Size of Image"], results.loc[image,"Factor"], removed,results.loc[image,"Color Depth Reduction"], _ = reduce_to(image,target)
-
+            results.loc[image,"Reduced Size of Image"], results.loc[image,"Quality Factor"], removed,results.loc[image,"Color Depth Reduction"], _ = reduce_to(image,target)
+            results.loc[image, "WEBP"] = False
             results.loc[image,"Removed"] = removed
+            result = image
         else:
-            results.loc[image,"Reduced Size of Image"], results.loc[image,"Quality Factor"],results.loc[image,"Color Depth Reduction"] = size, factor, color
+            results.loc[image,"Reduced Size of Image"], results.loc[image,"Quality Factor"],results.loc[image,"Color Depth Reduction"], results.loc[image, "WEBP"] = size, factor, color, True
             results.loc[image,"Removed"] = removed
+            results.loc[image,"WEBP Encoding Quality"] = encoding_quality
+            result = webp_image
+            
             
         
         to_replace = results.loc[image,"Image Source"]
@@ -338,7 +343,7 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
             continue
             
         print(to_replace)
-        replace_with = "https://localhost:4696/"+host+"/reduced_"+ image
+        replace_with = "https://localhost:4696/"+host+"/reduced_"+ result
         
         html = html.replace(to_replace, replace_with)
         print("replaced")
