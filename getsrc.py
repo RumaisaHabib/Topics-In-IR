@@ -79,6 +79,7 @@ driver.get(url)
 # Get all elements labelled 'img' and their sources
 images = driver.find_elements(By.TAG_NAME, 'img')
 image_srcs = [i.get_attribute('src') for i in images]
+image_locs = [i.location["y"] for i in images]
 
 
 print("===== GETTING WEBPAGE SIZE =====")
@@ -98,11 +99,11 @@ page_data["scrollWidth"] = driver.execute_script("return document.body.scrollWid
 
 # Initialize the number of images in the page, the results document, and the sources
 num_img = 0
-results = pd.DataFrame(columns=("Image Source", "Image Name", "Original Size (KB)", "New Size (KB)")).set_index("Image Name")
+results = pd.DataFrame(columns=("Image Source", "Image Name", "Original Size (KB)", "New Size (KB)", "Location")).set_index("Image Name")
 all_sources = []
 print("===== SCRAPING IMAGES =====")
 with open(host+"/images.txt", "w") as f:
-    for i in tqdm(set(image_srcs), bar_format=PROGRESS_BAR):
+    for i,loc in tqdm(zip(image_srcs, image_locs), bar_format=PROGRESS_BAR):
         if not i or i in all_sources:
             # If the source is 'None' type or already attempted to be downloaded, do not download
             continue
@@ -112,12 +113,6 @@ with open(host+"/images.txt", "w") as f:
             image_name = image_name.split("?")[0]
             if image_name[-3:] == "gif" or os.path.exists(host + "/" +image_name):
                 # Current implementation does not handle gifs or different images of the same name
-                continue
-            
-            # Image downloading
-            try:
-                os.system("cd " + host + " && wget -q --show-progress " + i)
-            except:
                 continue
             
             # Keeping a log of image sources
@@ -130,8 +125,14 @@ with open(host+"/images.txt", "w") as f:
             # Get original image size
             img_size = int(meta.get(name="Content-Length"))/BYTE_SIZE
             
+            # Image downloading
+            try:
+                os.system("cd " + host + " && wget -q --show-progress " + i)
+            except:
+                continue
+            
             # Add data to results
-            results.loc[image_name] = [i, img_size, "-"]
+            results.loc[image_name] = [i, img_size, "-", loc/page_data["scrollHeight"]]
             num_img+=1
         except HTTPError as e:
             if e.code == 403:

@@ -1,3 +1,4 @@
+from shutil import register_unpack_format
 import PIL.Image
 from urllib.parse import urlparse
 import os
@@ -106,7 +107,7 @@ def findSSIM(first, second):
 print("===== CALCULATING VALUES =====")
 imageNum = 0
 results = pd.read_csv(host+"/results.csv").set_index("New Name")
-results["1/SSIM Value"] = np.nan
+results["IAS"] = np.nan
 results["Area/1000"] = np.nan
 results["Normalized Area"] = np.nan
 results["Image Value"] = np.nan
@@ -131,14 +132,15 @@ for original in tqdm(originalImages, bar_format=PROGRESS_BAR):
         os.system("cd " + host + "&& rm " + listOfReducedImages[0])
         listOfReducedImages.pop(0)
     area = int((PIL.Image.open(originalPath)).size[0]) * int((PIL.Image.open(originalPath)).size[1])
-    results.loc[original, "1/SSIM Value"] = 1/(sumSSIM/len(qualities))
+    # results.loc[original, "IAS"] = 1/(sumSSIM/len(qualities))
+    results.loc[original, "IAS"] = 1- (sumSSIM/len(qualities))
     results.loc[original, "Area/1000"] = area/1000
     results.loc[original, "Normalized Area"] = area/scrollArea
-    results.loc[original, "Image Value"] = (1/(sumSSIM/len(qualities)))+ area/scrollArea
+    
     # results.loc[imageNum] = [ssimVals[-1], areaVals[-1], imageVals[-1]]
     imageNum = imageNum + 1
 
-
+results["Image Value"] = results["IAS"] + results["Normalized Area"] + (1-results["Location"])/10 + results["New Size (KB)"]/10
 total = results["Image Value"].sum()
 results["Reduction Factor"] = results["Image Value"]/total
 results.to_csv(host+"/results.csv")
