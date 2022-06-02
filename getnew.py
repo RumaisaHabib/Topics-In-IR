@@ -78,7 +78,7 @@ PHONE_WIDTH = 360
 PHONE_HEIGHT = 640
 PIXEL_RATIO = 3.0
 PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
-ERROR_MARGIN = 0.1 # 10%
+ERROR_MARGIN = 0.05 # 5%
 
 
 url = sys.argv[1]
@@ -130,7 +130,7 @@ def reduceQuality(size,final_size, orig, new):
     return factor, isFactored, size
 
 def lossyWebp(size, final_size, orig, new):
-    if (size<=final_size):
+    if (size<=final_size+final_size*ERROR_MARGIN):
         return 100, False, size
     factor = 50
     min = 0
@@ -173,7 +173,7 @@ def try_webp_reduce(image, final_size):
     os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + new_image_name)
     old_size = os.path.getsize(host + "/" + image)
     new_size = os.path.getsize(host + "/" + new_image_name)
-    if (new_size <= final_size):
+    if (new_size <= final_size+final_size*ERROR_MARGIN):
         # results.loc[image, "New Name"] = image
         # results.loc[image, "New Size (KB)"] = old_size
         # os.system("cd " + host + " && rm " + new_image_name )
@@ -183,7 +183,7 @@ def try_webp_reduce(image, final_size):
         # os.system("cd " + host + " && convert " +image +" -define webp:target-size="+str(final_size) + " " + new_image_name)
         # new_size = os.path.getsize(host + "/" + new_image_name)
         factor, isfactor, new_size = lossyWebp(old_size, final_size, image, new_image_name)
-        if(new_size <= final_size):
+        if(new_size <= final_size+final_size*ERROR_MARGIN):
             return new_size/1024, 100, False, False, True
     return new_size/1024, 100, False, False, False
 
@@ -221,13 +221,11 @@ def jpeg_reduce(image, final_size):
     size , _, _,_, name = reduce_to(new_image_name,final_size)
     # newFile.loc[image,"New Size (KB) (JPEG)"] = size
     return name
-    
-
-
 
 def reduce_to(image, final_size):
     final_size = final_size*1024
     print(image)
+
     
     # Get original size
     size = os.path.getsize(host + "/" + image)
@@ -243,7 +241,7 @@ def reduce_to(image, final_size):
     
     # STEP 2: Change colors
     isBlack = False
-    if(size>final_size):
+    if(size>final_size+final_size*ERROR_MARGIN):
         isBlack = True
         os.system("convert -colors 2 " + host + "/reduced_" + image + " " + host + "/reduced_" + image)
         size = os.path.getsize(host + "/reduced_" + image)
@@ -256,7 +254,7 @@ def reduce_to(image, final_size):
     
     # STEP 3: Remove image
     isRemoved = False
-    if(size>final_size):
+    if(size>final_size+final_size*ERROR_MARGIN):
         isRemoved = True
 
     if not isFactored:
