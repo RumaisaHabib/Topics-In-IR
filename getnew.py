@@ -43,8 +43,11 @@ def findSSIM(first, second):
     image2 = cv2.imread(second, 1)
 
     # Convert the images to grayscale
-    gray1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
-    gray2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
+    try:
+        gray1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
+        gray2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
+    except Exception:
+        pass
 
     # Check for same size and ratio and report accordingly
     ho, wo, _ = image1.shape
@@ -85,6 +88,10 @@ url = sys.argv[1]
 
 # newFile = pd.DataFrame(columns=("Image Name", "Original Size (KB)", "Target Size (KB)", "New Size (KB) (Lossy)", "New Size (KB) (Lossless)", "New Size (KB) (Original)", "New Size (KB) (JPEG)", "SSIM Lossy", "SSIM Lossless", "SSIM Original", "SSIM JPEG")).set_index("Image Name")
 newFile = pd.DataFrame(columns=("Image Name", "Target Size (KB)", "SSIM Lossy", "SSIM Lossless", "SSIM Original", "SSIM JPEG")).set_index("Image Name")
+moreFile = pd.DataFrame(columns=("Image Name", "Target Size (KB)", "SSIM Lossy", "SSIM Lossless", "SSIM Original", "SSIM JPEG")).set_index("Image Name")
+# webpFile = pd.DataFrame(columns=("Image Name", "Target Size (KB)", "New Size Lossy (KB)", "New Size Lossless (KB)"))
+# webpGoalFile = pd.DataFrame(columns=("Image Name", "Target Size (KB)", "New Size Lossy (KB)", "New Size Lossless (KB)"))
+siteFile = pd.DataFrame(columns=("Image Name", "Target Size (KB)", "SSIM Lossy", "SSIM Lossless", "SSIM Original", "SSIM JPEG")).set_index("Image Name")
 
 # Get website name
 parsed = urlparse(url)
@@ -106,11 +113,12 @@ def reduceQuality(size,final_size, orig, new):
     old_size = size
     new_size = 0
     print("new image")
-    while (factor>5):
+    while (factor>6.25):
         isFactored = True
-
+        # im = Image.open("./"+host+"/"+orig)
         # image_rescaled = rescale(img, factor, anti_aliasing=False)
         # imsave(host + "/reduced_" + image, image_rescaled)
+        print("FACTOIR: ", factor," " )
         os.system("convert " + host + "/" + orig + " -quality " + str(factor) + "% " + host + "/" + new)
         size = os.path.getsize(host + "/" + new)
         if (size == (final_size-(ERROR_MARGIN*final_size)) or size == ((ERROR_MARGIN*final_size)+final_size) or factor <= 5):
@@ -147,8 +155,8 @@ def lossyWebp(size, final_size, orig, new):
         # os.system("convert " + host + "/" + orig + " -quality " + str(factor) + "% " + host + "/" + new)
         path = "./" + host + "/" + orig
         # new_image_name = image.split(".")[0] + ".webp"
-        
         im = Image.open(path)
+        print("LOSSY FACTOR: ", factor)
         im.save("./"+host+"/"+ new, "WEBP", quality=factor, optimize=True, lossless=False)
         size = os.path.getsize(host + "/" + new)
         # size = os.path.getsize(host + "/" + new)
@@ -185,7 +193,7 @@ def try_webp_reduce(image, final_size):
         # new_size = os.path.getsize(host + "/" + new_image_name)
         factor, isfactor, new_size = lossyWebp(old_size, final_size, image, "reduced_"+ new_image_name)
         if(new_size <= final_size+final_size*ERROR_MARGIN):
-            return new_size/1024, 100, False, False, True, new_image_name, factor
+            return new_size/1024, 100, False, False, True, "reduced_"+new_image_name, factor
     return new_size/1024, 100, False, False, False, image, "-"
 
 def webp_lossless(image, final_size):
@@ -193,9 +201,11 @@ def webp_lossless(image, final_size):
     os.system("cd " + host + " && convert " +image +" -define webp:lossless=true " + new_image_name)
     old_size = os.path.getsize(host + "/" + image)
     new_size = os.path.getsize(host + "/" + new_image_name)
-    size , _, _,_, name = reduce_to(new_image_name,final_size)
+    # size , _, _,_, name = reduce_to(new_image_name,final_size)
     # newFile.loc[image,"New Size (KB) (Lossless)"] = size
-    return name
+    # webpFile.loc[image,"New Size (KB) (Lossless)"] = new_size
+    
+    return new_image_name, new_size
 
 def webp_lossy(image, final_size):
     new_image_name = image.split(".")[0] + ".webp"
@@ -207,11 +217,12 @@ def webp_lossy(image, final_size):
     old_size = os.path.getsize(host + "/" + image)
     
     factor, isfactor, new_size = lossyWebp(old_size, final_size, image, new_image_name)
+    # webpFile.loc[image,"New Size (KB) (Lossless)"] = new_size
     
     # new_size = os.path.getsize(host + "/" + new_image_name)
-    size , _, _,_, name = reduce_to(new_image_name,final_size)
+    # size , _, _,_, name = reduce_to(new_image_name,final_size)
     # newFile.loc[image,"New Size (KB) (Lossy)"] = size
-    return name
+    return new_image_name, new_size
 
 def jpeg_reduce(image, final_size):
     new_image_name = image.split(".")[0] + ".jpg"
@@ -219,9 +230,16 @@ def jpeg_reduce(image, final_size):
     
     old_size = os.path.getsize(host + "/" + image)
     new_size = os.path.getsize(host + "/" + new_image_name)
-    size , _, _,_, name = reduce_to(new_image_name,final_size)
+    size , factor, isRemoved, isBlack, new_image_name = reduce_to(new_image_name,final_size)
+    # return end_size/1024, factor, isRemoved, isBlack, "reduced_" + image
+    
     # newFile.loc[image,"New Size (KB) (JPEG)"] = size
-    return name
+    return size , factor, isRemoved, isBlack, new_image_name
+
+# def jpeg_convert(image, final_size):
+#     new_image_name = image.split(".")[0] + ".jpg"
+#     os.system("cd " + host + " && convert " + image + " " + new_image_name)
+#     reduce_to(new_image_name, final_size)
 
 def reduce_to(image, final_size):
     
@@ -244,7 +262,11 @@ def reduce_to(image, final_size):
     isBlack = False
     if(size>final_size+final_size*ERROR_MARGIN):
         isBlack = True
-        os.system("convert -colors 2 " + host + "/reduced_" + image + " " + host + "/reduced_" + image)
+        print("TRYING TO COLOR")
+        try:
+            os.system("convert -colors 2 " + host + "/reduced_" + image + " " + host + "/reduced_" + image)
+        except Exception:
+            print("CANT COLOR")
         size = os.path.getsize(host + "/reduced_" + image)
         print(size)
  
@@ -253,7 +275,7 @@ def reduce_to(image, final_size):
     _, _, size = reduceQuality(size, final_size, "copy_reduced_" + image, "reduced_" + image)
     os.system("rm " + host + "/copy_reduced_" + image)
     
-    # STEP 3: Remove image
+    # STEP 3: Remove image MOVE THIS
     isRemoved = False
     if(size>final_size+final_size*ERROR_MARGIN):
         isRemoved = True
@@ -264,7 +286,7 @@ def reduce_to(image, final_size):
     end_size = os.path.getsize(host + "/reduced_" + image)
     if isRemoved:
         end_size = 0
-    return end_size/1024, factor, isRemoved, isBlack, "reduced_" + image
+    return size/1024, factor, isRemoved, isBlack, "reduced_" + image
     
 image_names = os.listdir(host)
 results = pd.read_csv(host+"/results.csv").set_index("New Name")
@@ -278,9 +300,126 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
         if results.loc[image,"Reduction Factor"] == "-":
             continue
         target = results.loc[image,"Target Size of Image"]
+        # target = webpFile.loc[image,"Target Size (KB)"]
+        
         target = target*1024
+        # newFile.loc[image,"Target Size (KB)"] = target/1024
+        # moreFile.loc[image, "Target Size (KB)"] = target/1024
+        # siteFile.loc[image, "Target Size (KB)"] = target/1024
+        
+            
         # if(image.split('.')[-1] == "png"):
-        #     newFile.loc[image,"Target Size (KB)"] = target
+        
+        #     name, size = webp_lossless(image, target)
+        #     print(image, name)
+        #     if(size>target+target*ERROR_MARGIN): # target not reached remove image so ssim = 0
+        #         newFile.loc[image,"SSIM Lossless"] = 0
+        #         siteFile.loc[image,"SSIM Lossless"] = 0
+                
+        #     else:
+        #         reducedPath = "./"+host+"/"+name
+
+        #         originalPath = "./"+host+"/"+image
+        #         # reducedPath = "./"+host+"/"+listOfReducedImages[0]
+        #         mseval, ssimval = findSSIM(originalPath, reducedPath)
+        #         newFile.loc[image,"SSIM Lossless"] = ssimval
+        #         siteFile.loc[image,"SSIM Lossless"] = ssimval
+                
+            
+            
+        #     name, size = webp_lossy(image, target)
+        #     if(size>target+target*ERROR_MARGIN): # target not reached remove image so ssim = 0
+        #         newFile.loc[image,"SSIM Lossy"] = 0
+        #         siteFile.loc[image,"SSIM Lossy"] = 0
+                
+        #     else: 
+        #         reducedPath = "./"+host+"/"+name
+
+        #         originalPath = "./"+host+"/"+image
+        #         # reducedPath = "./"+host+"/"+listOfReducedImages[0]
+        #         mseval, ssimval = findSSIM(originalPath, reducedPath)
+        #         newFile.loc[image,"SSIM Lossy"] = ssimval
+        #         siteFile.loc[image,"SSIM Lossy"] = ssimval
+                
+            
+        #     size, _, _, _, name = reduce_to(image, target)
+        #     # newFile.loc[image,"New Size (KB) (Original)"] = size
+        #     reducedPath = "./"+host+"/"+name
+
+        #     originalPath = "./"+host+"/"+image
+        #     # reducedPath = "./"+host+"/"+listOfReducedImages[0]
+        #     mseval, ssimval = findSSIM(originalPath, reducedPath)
+        #     newFile.loc[image,"SSIM Original"] = ssimval
+        #     siteFile.loc[image,"SSIM Original"] = ssimval
+            
+            
+        #     _, _, _, _, name = jpeg_reduce(image, target)
+        #     reducedPath = "./"+host+"/"+name
+
+        #     originalPath = "./"+host+"/"+image
+        #     # reducedPath = "./"+host+"/"+listOfReducedImages[0]
+        #     mseval, ssimval = findSSIM(originalPath, reducedPath)
+        #     siteFile.loc[image,"SSIM JPEG"] = ssimval
+        
+        
+        
+        # if(image.split('.')[-1] == "jpg"):
+        
+        #     name, size = webp_lossless(image, target)
+        #     print(image, name)
+        #     if(size>target+target*ERROR_MARGIN): # target not reached remove image so ssim = 0
+        #         moreFile.loc[image,"SSIM Lossless"] = 0
+        #         siteFile.loc[image,"SSIM Lossless"] = 0
+                
+        #     else:
+        #         reducedPath = "./"+host+"/"+name
+
+        #         originalPath = "./"+host+"/"+image
+        #         # reducedPath = "./"+host+"/"+listOfReducedImages[0]
+        #         mseval, ssimval = findSSIM(originalPath, reducedPath)
+        #         siteFile.loc[image,"SSIM Lossless"] = ssimval
+            
+            
+        #     name, size = webp_lossy(image, target)
+        #     if(size>target+target*ERROR_MARGIN): # target not reached remove image so ssim = 0
+        #         moreFile.loc[image,"SSIM Lossy"] = 0
+        #         siteFile.loc[image,"SSIM Lossy"] = 0
+                
+        #     else: 
+        #         reducedPath = "./"+host+"/"+name
+
+        #         originalPath = "./"+host+"/"+image
+        #         # reducedPath = "./"+host+"/"+listOfReducedImages[0]
+        #         mseval, ssimval = findSSIM(originalPath, reducedPath)
+        #         moreFile.loc[image,"SSIM Lossy"] = ssimval
+        #         siteFile.loc[image,"SSIM Lossy"] = ssimval
+                
+            
+        #     size, _, _, _, name = reduce_to(image, target)
+        #     # newFile.loc[image,"New Size (KB) (Original)"] = size
+        #     reducedPath = "./"+host+"/"+name
+
+        #     originalPath = "./"+host+"/"+image
+        #     # reducedPath = "./"+host+"/"+listOfReducedImages[0]
+        #     mseval, ssimval = findSSIM(originalPath, reducedPath)
+        #     moreFile.loc[image,"SSIM Original"] = ssimval
+        #     siteFile.loc[image,"SSIM Original"] = ssimval
+            
+            
+        #     _, _, _, _, name = jpeg_reduce(image, target)
+        #     # name = jpeg_reduce(image, target)
+        #     reducedPath = "./"+host+"/"+name
+
+        #     originalPath = "./"+host+"/"+image
+        #     # reducedPath = "./"+host+"/"+listOfReducedImages[0]
+        #     mseval, ssimval = findSSIM(originalPath, reducedPath)
+        #     moreFile.loc[image,"SSIM JPEG"] = ssimval
+        #     siteFile.loc[image,"SSIM JPEG"] = ssimval
+            
+        
+        
+        # if(image.split('.')[-1] == "png"):
+        #     newFile.loc[image,"Target Size (KB)"] = target/1024
             
             
         #     name = webp_lossless(image, target)
@@ -316,25 +455,101 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
         #     # reducedPath = "./"+host+"/"+listOfReducedImages[0]
         #     mseval, ssimval = findSSIM(originalPath, reducedPath)
         #     newFile.loc[image,"SSIM JPEG"] = ssimval
+        
+        # if(image.split('.')[-1] == "jpg"):
+        #     print("JPGshbrgfhdfgsrgh")
+        #     moreFile.loc[image,"Target Size (KB)"] = target/1024
             
+            
+        #     name = webp_lossless(image, target)
+        #     print(image, name)
+        #     reducedPath = "./"+host+"/"+name
+
+        #     originalPath = "./"+host+"/"+image
+        #     # reducedPath = "./"+host+"/"+listOfReducedImages[0]
+        #     mseval, ssimval = findSSIM(originalPath, reducedPath)
+        #     moreFile.loc[image,"SSIM Lossless"] = ssimval
+            
+        #     name = webp_lossy(image, target)
+        #     reducedPath = "./"+host+"/"+name
+
+        #     originalPath = "./"+host+"/"+image
+        #     # reducedPath = "./"+host+"/"+listOfReducedImages[0]
+        #     mseval, ssimval = findSSIM(originalPath, reducedPath)
+        #     moreFile.loc[image,"SSIM Lossy"] = ssimval
+            
+        #     size, _, _, _, name = reduce_to(image, target)
+        #     # newFile.loc[image,"New Size (KB) (Original)"] = size
+        #     reducedPath = "./"+host+"/"+name
+
+        #     originalPath = "./"+host+"/"+image
+        #     # reducedPath = "./"+host+"/"+listOfReducedImages[0]
+        #     mseval, ssimval = findSSIM(originalPath, reducedPath)
+        #     moreFile.loc[image,"SSIM Original"] = ssimval
+            
+        #     name = jpeg_reduce(image, target)
+            # reducedPath = "./"+host+"/"+name
+
+            # originalPath = "./"+host+"/"+image
+            # # reducedPath = "./"+host+"/"+listOfReducedImages[0]
+            # mseval, ssimval = findSSIM(originalPath, reducedPath)
+        #     moreFile.loc[image,"SSIM JPEG"] = ssimval
+        
+        
+        
+        # name = webp_lossless(image, target)
+        # print(image, name)
+        
+        # name = webp_lossy(image, target)
+        
         
         # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
-        size, factor, removed, color, webpTrue, webp_image, encoding_quality = try_webp_reduce(image, target)
-        if not webpTrue:
+        webp_size, webp_factor, webp_removed, webp_color, webpTrue, webp_image, encoding_quality = try_webp_reduce(image, target)
+        jpg_size , jpg_factor, jpg_removed, jpg_color, jpg_image = jpeg_reduce(image, target)
+        
+        # jpg_size, jpg_factor, jpg_removed, jpg_color, jpg_image = reduce_to(image,target)
+        print("IMAGES: ", image, webp_image, jpg_image)
+        try:
+            _, webp_ssim = findSSIM("./"+host+"/"+image, "./"+host+"/"+webp_image)
+            _, jpg_ssim = findSSIM("./"+host+"/"+image, "./"+host+"/"+jpg_image)
+        except Exception:
+            print("NO SSIM")
+        final_ssim = None
+        final_size = None
+        
+        
+        if not webpTrue and jpg_removed:
+            removed = True
+            results.loc[image,"Reduced Size of Image"], results.loc[image,"Quality Factor"], removed,results.loc[image,"Color Depth Reduction"] = 0, 0, jpg_removed, 0
+            results.loc[image,"Removed"] = True
+            final_ssim = 0
+            
+        elif not webpTrue or jpg_ssim > webp_ssim:
 
-            results.loc[image,"Reduced Size of Image"], results.loc[image,"Quality Factor"], removed,results.loc[image,"Color Depth Reduction"], _ = reduce_to(image,target)
+            results.loc[image,"Reduced Size of Image"], results.loc[image,"Quality Factor"], removed,results.loc[image,"Color Depth Reduction"] = jpg_size, jpg_factor, jpg_removed, jpg_color
             results.loc[image, "WEBP"] = False
-            results.loc[image,"Removed"] = removed
-            result = image
-        else:
-            results.loc[image,"Reduced Size of Image"], results.loc[image,"Quality Factor"],results.loc[image,"Color Depth Reduction"], results.loc[image, "WEBP"] = size, factor, color, True
-            results.loc[image,"Removed"] = removed
+            results.loc[image,"Removed"] = jpg_removed
+            final_ssim = jpg_ssim
+            result = jpg_image
+        else:                
+            removed = webp_removed
+            results.loc[image,"Reduced Size of Image"], results.loc[image,"Quality Factor"],results.loc[image,"Color Depth Reduction"], results.loc[image, "WEBP"] = webp_size, encoding_quality, False, True
+            results.loc[image,"Removed"] = webp_removed
             results.loc[image,"WEBP Encoding Quality"] = encoding_quality
+            final_ssim = webp_ssim
+            
             result = webp_image
-            
-            
+        
+        results.loc[image,"Final SSIM"] = final_ssim
+        
+        
+        print("FINAL SSIM")
+        if(final_ssim < 0.6):
+            removed = True
+            results.loc[image,"Removed"] = removed
         
         to_replace = results.loc[image,"Image Source"]
+        
         if (removed):
             src_str = "src=\""+ to_replace + "\""
             replace_with = src_str + " style=\"display:none\""
@@ -343,7 +558,7 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
             continue
             
         print(to_replace)
-        replace_with = "https://localhost:4696/"+host+"/reduced_"+ result
+        replace_with = "https://localhost:4696/"+host+ "redeuced_"+ result
         
         html = html.replace(to_replace, replace_with)
         print("replaced")
@@ -351,7 +566,11 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
     except Exception as e:
         print("ERROR:",e)
 
-newFile.to_csv(host+"/newFile.csv")
+# newFile.to_csv(host+"/newFile.csv")
+# moreFile.to_csv(host+"/jpgFile.csv")
+# siteFile.to_csv(host+"/webpFile.csv")
+
+
 
 
 
