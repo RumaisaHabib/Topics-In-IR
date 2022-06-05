@@ -1,0 +1,5 @@
+#! /bin/sh
+
+# 1: folder , 2: reduction factor (0<x<1), 3: scroll area of page
+
+python3 getimages.py $1 $2 $3s
