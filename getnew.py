@@ -186,7 +186,7 @@ def try_webp_reduce(image, final_size):
         # results.loc[image, "New Name"] = image
         # results.loc[image, "New Size (KB)"] = old_size
         # os.system("cd " + host + " && rm " + new_image_name )
-        return new_size/1024, 100, False, False, True, new_image_name, 100
+        return new_size/1024, 100, False, False, True, "reduced_"+new_image_name, 100
         
     else:
         # os.system("cd " + host + " && convert " +image +" -define webp:target-size="+str(final_size) + " " + new_image_name)
@@ -226,12 +226,13 @@ def webp_lossy(image, final_size):
 
 def jpeg_reduce(image, final_size):
     new_image_name = image.split(".")[0] + ".jpg"
-    os.system("cd " + host + " && convert " + image + " " + new_image_name)
+    os.system("cd " + host + " && convert " + image + " " +  new_image_name)
     
     old_size = os.path.getsize(host + "/" + image)
     new_size = os.path.getsize(host + "/" + new_image_name)
     size , factor, isRemoved, isBlack, new_image_name = reduce_to(new_image_name,final_size)
     # return end_size/1024, factor, isRemoved, isBlack, "reduced_" + image
+    # os.system("cp " + host + "/" + new_image_name + " " + host + "/reduced_" + new_image_name)
     
     # newFile.loc[image,"New Size (KB) (JPEG)"] = size
     return size , factor, isRemoved, isBlack, new_image_name
@@ -558,7 +559,7 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
             continue
             
         print(to_replace)
-        replace_with = "https://localhost:4696/"+host+ "redeuced_"+ result
+        replace_with = "https://localhost:4696/"+host+"/" +result
         
         html = html.replace(to_replace, replace_with)
         print("replaced")
