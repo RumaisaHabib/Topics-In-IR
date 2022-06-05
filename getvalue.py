@@ -14,6 +14,7 @@ import numpy as np
 import cv2
 import pandas as pd
 import json
+import VCPR
 PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
 
 url = sys.argv[1]
@@ -40,68 +41,12 @@ scrollArea = page_data["scrollHeight"] * page_data["scrollWidth"]
 image_names = os.listdir(host)
 
 for image in image_names:
-    # os.system("cd " + host)
     if image == "page_data.json" or image == "results.csv" or image == "images.txt" or image=="source.html" or image=="original.png":
         continue
     for i in qualities:
-        # os.system("magick " +image +" -define webp:lossless=true " + image.split(".")[0] + ".webp && rm " +image)
         os.system("cd " + host + "&& convert " + image + " -quality " + str(i) + "% " + str(i)+"_"+image)
         listOfReducedImages.append(str(i)+"_"+image)
     originalImages.append(image)
-
-def mse(imageA, imageB):
- # the 'Mean Squared Error' between the two images is the sum of the squared difference between the two images
- mse_error = np.sum((imageA.astype("float") - imageB.astype("float")) ** 2)
- mse_error /= float(imageA.shape[0] * imageA.shape[1])
-	
- # return the MSE. The lower the error, the more "similar" the two images are.
- return mse_error
-
-def compare(imageA, imageB):
- # Calculate the MSE and SSIM
- m = mse(imageA, imageB)
- s = ssim(imageA, imageB)
-
- # Return the SSIM. The higher the value, the more "similar" the two images are.
- return s
-
-
-def findSSIM(first, second):
-
-    # Import images
-    image1 = cv2.imread(first)
-    image2 = cv2.imread(second, 1)
-
-    # Convert the images to grayscale
-    gray1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
-    gray2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
-
-    # Check for same size and ratio and report accordingly
-    ho, wo, _ = image1.shape
-    hc, wc, _ = image2.shape
-    ratio_orig = ho/wo
-    ratio_comp = hc/wc
-    dim = (wc, hc)
-
-    if round(ratio_orig, 2) != round(ratio_comp, 2):
-        print("\nImages not of the same dimension. Check input.")
-        exit()
-
-    # Resize first image if the second image is smaller
-    elif ho > hc and wo > wc:
-        print("\nResizing original image for analysis...")
-        gray1 = cv2.resize(gray1, dim)
-
-    elif ho < hc and wo < wc:
-        print("\nCompressed image has a larger dimension than the original. Check input.")
-        exit()
-
-    if round(ratio_orig, 2) == round(ratio_comp, 2):
-        mse_value = mse(gray1, gray2)
-        ssim_value = compare(gray1, gray2)
-        # print("MSE:", mse_value)
-        # print("SSIM:", ssim_value)
-        return mse_value, ssim_value
 
 
 print("===== CALCULATING VALUES =====")
@@ -116,28 +61,17 @@ for original in tqdm(originalImages, bar_format=PROGRESS_BAR):
     sumSSIM = 0
     originalPath = "./"+host+"/"+original
     for i in qualities:
-        # print("ORGINAL AND " + str(i))
-        
         reducedPath = "./"+host+"/"+listOfReducedImages[0]
 
         originalPath = "./"+host+"/"+original
-        # reducedPath = "./"+host+"/"+listOfReducedImages[0]
-        mseval, ssimval = findSSIM(originalPath, reducedPath)
+        mseval, ssimval = VCPR.findSSIM(originalPath, reducedPath)
         sumSSIM = sumSSIM + ssimval
-        # os.system("cd "+host+"&& identify -format " + "\"Pixel Size: %w x %h\n\"" + original)
-        # os.system("cd "+host+"&& identify -format " + "\"Pixel Size: %w x %h\n\"" + listOfReducedImages[0])
-        # originalImage = PIL.Image.open(originalPath)
-        # reducedImage = PIL.Image.open(reducedPath)
-        # print("original size: ", type(originalImage.size), "reduced size: ", reducedImage.size)
         os.system("cd " + host + "&& rm " + listOfReducedImages[0])
         listOfReducedImages.pop(0)
     area = int((PIL.Image.open(originalPath)).size[0]) * int((PIL.Image.open(originalPath)).size[1])
-    # results.loc[original, "IAS"] = 1/(sumSSIM/len(qualities))
     results.loc[original, "IAS"] = 1- (sumSSIM/len(qualities))
     results.loc[original, "Area/1000"] = area/1000
     results.loc[original, "Normalized Area"] = area/scrollArea
-    
-    # results.loc[imageNum] = [ssimVals[-1], areaVals[-1], imageVals[-1]]
     imageNum = imageNum + 1
 
 results["Image Value"] = results["IAS"] + results["Normalized Area"] + (1-results["Location"])/10 + results["New Size (KB)"]/10
