@@ -1,0 +1,18 @@
+1,1,0.1,0.1
+DARAZ
+SSIM: 0.988 (but one image was removed)
+SSIM: 0.950 (image not removed)
+DAWN
+SSIM: 0.922
+
+0.1, 0.1, 0.1, 0.1 
+DARAZ
+SSIM: 0.992
+DAWN
+SSIM: 0.927
+
+0.1, 0.2, 0.1, 0.2
+DARAZ
+SSIM: 0.986
+DAWN
+0.856

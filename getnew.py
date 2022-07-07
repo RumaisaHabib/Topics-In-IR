@@ -1,6 +1,8 @@
 from pickletools import optimize
 from urllib.parse import urlparse
 import os
+import pqual
+from Screenshot import Screenshot_Clipping
 import sys
 from selenium import webdriver
 from urllib.parse import urlparse
@@ -62,6 +64,12 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
         
         target = target*1024
         
+        # REMOVE
+        og = sum(results["Original Size (KB)"])
+        red = sum(results["Target Size of Image"])
+        target = (results.loc[image,"Original Size (KB)"] * 1024) / (og/red)
+        # REMOVE
+        
         # os.system("convert " + host + "/" + image + " -define webp:extent=" + str(round(target,2)) + "kb " + host + "/reduced_"+ image)
         webp_size, webp_factor, webp_removed, webp_color, webpTrue, webp_image, encoding_quality = VCPR.try_webp_reduce(image, target, host)
         jpg_size , jpg_factor, jpg_removed, jpg_color, jpg_image = VCPR.jpeg_reduce(image, target, host)
@@ -107,7 +115,7 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
         
         
         print("FINAL SSIM")
-        if(final_ssim < 0.6):
+        if(final_ssim < 0.3):
             removed = True
             results.loc[image,"Removed"] = removed
         
@@ -160,8 +168,14 @@ f.write(driver.page_source)
 f.close()
 
 time.sleep(10)
+#driver.execute_script("document.body.style.zoom='10%'")
 driver.save_screenshot(host+"/reduced.png")
+# ob=Screenshot_Clipping.Screenshot()
+# img=ob.full_Screenshot(driver,save_path=os.getcwd()+"/"+host,image_name="reduced.png")
 driver.close()
+
+print(VCPR.findSSIM(host+"/reduced.png", host+"/original.png"))
+print(pqual.compare(host+"/original.png", host+"/reduced.png",mode="screenshot"))
 results['Reduced Size of Image'] = results['Reduced Size of Image'].replace('', pd.NA).fillna(results['Target Size of Image'])
 results["Error"] = results["Target Size of Image"] - results["Reduced Size of Image"]
 results.to_csv(host+"/results.csv")

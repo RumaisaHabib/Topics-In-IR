@@ -18,6 +18,10 @@ import VCPR
 PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
 
 url = sys.argv[1]
+a = sys.argv[2] #IAS
+b = sys.argv[3] #Area
+c = sys.argv[4] #Location
+d = sys.argv[5] #OG Size
 
 
 qualities = [25, 50, 75]
@@ -74,7 +78,7 @@ for original in tqdm(originalImages, bar_format=PROGRESS_BAR):
     results.loc[original, "Normalized Area"] = area/scrollArea
     imageNum = imageNum + 1
 
-results["Image Value"] = results["IAS"] + results["Normalized Area"] + (1-results["Location"])/10 + results["New Size (KB)"]/10
+results["Image Value"] = a*results["IAS"] + b*results["Normalized Area"] + c*(1-results["Location"]) + d*results["New Size (KB)"]
 total = results["Image Value"].sum()
 results["Reduction Factor"] = results["Image Value"]/total
 results.to_csv(host+"/results.csv")

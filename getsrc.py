@@ -1,6 +1,7 @@
 from numpy import imag
 from selenium import webdriver
 import re
+from Screenshot import Screenshot_Clipping
 from urllib.parse import urlparse
 import urllib.request, io
 from urllib.error import HTTPError
@@ -207,8 +208,10 @@ html = re.sub(", portal/", ", " + url + "/portal/",html)
 f = open(host+"/source.html", "w")
 f.write(html)
 f.close()
-
+#driver.execute_script("document.body.style.zoom='10%'")
 driver.save_screenshot(host+"/original.png")
+# ob=Screenshot_Clipping.Screenshot()
+# img=ob.full_Screenshot(driver,save_path=os.getcwd()+"/"+host,image_name="original.png")
 driver.close()
 
 
