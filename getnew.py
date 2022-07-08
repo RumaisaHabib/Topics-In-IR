@@ -30,6 +30,10 @@ ERROR_MARGIN = 0.1 # 5%
 
 
 url = sys.argv[1]
+a = float(sys.argv[2]) #IAS
+b = float(sys.argv[3]) #Area
+c = float(sys.argv[4]) #Location
+d = float(sys.argv[5]) #OG Size
 
 # newFile = pd.DataFrame(columns=("Image Name", "Original Size (KB)", "Target Size (KB)", "New Size (KB) (Lossy)", "New Size (KB) (Lossless)", "New Size (KB) (Original)", "New Size (KB) (JPEG)", "SSIM Lossy", "SSIM Lossless", "SSIM Original", "SSIM JPEG")).set_index("Image Name")
 newFile = pd.DataFrame(columns=("Image Name", "Target Size (KB)", "SSIM Lossy", "SSIM Lossless", "SSIM Original", "SSIM JPEG")).set_index("Image Name")
@@ -115,7 +119,7 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
         
         
         print("FINAL SSIM")
-        if(final_ssim < 0.3):
+        if(final_ssim < 0.01):
             removed = True
             results.loc[image,"Removed"] = removed
         
@@ -175,7 +179,16 @@ driver.save_screenshot(host+"/reduced.png")
 driver.close()
 
 print(VCPR.findSSIM(host+"/reduced.png", host+"/original.png"))
-print(pqual.compare(host+"/original.png", host+"/reduced.png",mode="screenshot"))
+QSS = pqual.compare(host+"/original.png", host+"/reduced.png",mode="screenshot")
+
+qss_file = host+'_QSS_test.csv'
+if (os.path.isfile(qss_file)):
+    qss_df = pd.read_csv(qss_file, index_col=0)
+    qss_df.loc[len(qss_df)] = [a,b,c,d,QSS]
+    qss_df.to_csv(qss_file)
+else:
+    pd.DataFrame([[a,b,c,d,QSS]], columns=["IAS", "Area", "Location", "Original Size", "QSS"]).to_csv(qss_file)
+
 results['Reduced Size of Image'] = results['Reduced Size of Image'].replace('', pd.NA).fillna(results['Target Size of Image'])
 results["Error"] = results["Target Size of Image"] - results["Reduced Size of Image"]
 results.to_csv(host+"/results.csv")

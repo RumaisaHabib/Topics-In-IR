@@ -18,10 +18,10 @@ import VCPR
 PROGRESS_BAR = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET)
 
 url = sys.argv[1]
-a = sys.argv[2] #IAS
-b = sys.argv[3] #Area
-c = sys.argv[4] #Location
-d = sys.argv[5] #OG Size
+a = float(sys.argv[2]) #IAS
+b = float(sys.argv[3]) #Area
+c = float(sys.argv[4]) #Location
+d = float(sys.argv[5]) #OG Size
 
 
 qualities = [25, 50, 75]

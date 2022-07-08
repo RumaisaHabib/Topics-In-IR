@@ -81,13 +81,13 @@ def reduceQuality(size,final_size, orig, new, host):
     isFactored = False
     old_size = size
     new_size = 0
-    print("new image")
+    #print("new image")
     while (factor>6.25):
         isFactored = True
         # im = Image.open("./"+host+"/"+orig)
         # image_rescaled = rescale(img, factor, anti_aliasing=False)
         # imsave(host + "/reduced_" + image, image_rescaled)
-        print("FACTOIR: ", factor," " )
+        #print("FACTOIR: ", factor," " )
         os.system("convert " + host + "/" + orig + " -quality " + str(factor) + "% " + host + "/" + new)
         size = os.path.getsize(host + "/" + new)
         if (size == (final_size-(ERROR_MARGIN*final_size)) or size == ((ERROR_MARGIN*final_size)+final_size) or factor <= 5):
@@ -97,7 +97,7 @@ def reduceQuality(size,final_size, orig, new, host):
         old_size = new_size
         new_size = size
         #print('factor {} image of size {}'.format(factor,size))
-        print(size, factor)
+        #print(size, factor)
         if(size > final_size):
             max = factor
         else:
@@ -115,7 +115,7 @@ def lossyWebp(size, final_size, orig, new, host):
     isFactored = False
     old_size = size
     new_size = 0
-    print("new image")
+    #print("new image")
     while (factor>5):
         isFactored = True
 
@@ -125,7 +125,7 @@ def lossyWebp(size, final_size, orig, new, host):
         path = "./" + host + "/" + orig
         # new_image_name = image.split(".")[0] + ".webp"
         im = Image.open(path)
-        print("LOSSY FACTOR: ", factor)
+        #print("LOSSY FACTOR: ", factor)
         im.save("./"+host+"/"+ new, "WEBP", quality=factor, optimize=True, lossless=False)
         size = os.path.getsize(host + "/" + new)
         # size = os.path.getsize(host + "/" + new)
@@ -136,7 +136,7 @@ def lossyWebp(size, final_size, orig, new, host):
         old_size = new_size
         new_size = size
         #print('factor {} image of size {}'.format(factor,size))
-        print("WEBP", size, factor)
+        #print("WEBP", size, factor)
         if(size > final_size):
             max = factor
         else:
@@ -150,7 +150,7 @@ def try_webp_reduce(image, final_size, host):
     os.system("cd " + host + " && convert " +image +" -define webp:lossless=true reduced_" + new_image_name)
     old_size = os.path.getsize(host + "/" + image)
     new_size = os.path.getsize(host + "/reduced_" + new_image_name)
-    print("LOSSLESS", old_size, new_size)
+    #print("LOSSLESS", old_size, new_size)
     if (new_size <= final_size+final_size*ERROR_MARGIN):
         # results.loc[image, "New Name"] = image
         # results.loc[image, "New Size (KB)"] = old_size
@@ -208,7 +208,7 @@ def jpeg_reduce(image, final_size, host):
 
 def reduce_to(image, final_size, host):
     
-    print(image)
+    #print(image)
 
     
     # Get original size
@@ -221,19 +221,19 @@ def reduce_to(image, final_size, host):
     # STEP 1: Reduce quality 
     factor, isFactored, size = reduceQuality(size, final_size, image, "reduced_" +image, host)
 
-    print('factor {} image of size {}'.format(factor,size))
+    #print('factor {} image of size {}'.format(factor,size))
     
     # STEP 2: Change colors
     isBlack = False
     if(size>final_size+final_size*ERROR_MARGIN):
         isBlack = True
-        print("TRYING TO COLOR")
+        #print("TRYING TO COLOR")
         try:
             os.system("convert -colors 2 " + host + "/reduced_" + image + " " + host + "/reduced_" + image)
         except Exception:
             print("CANT COLOR")
         size = os.path.getsize(host + "/reduced_" + image)
-        print(size)
+        #print(size)
  
         
     os.system("cp " + host + "/reduced_" + image + " " + host + "/copy_reduced_" + image)
