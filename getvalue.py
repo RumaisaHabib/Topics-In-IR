@@ -1,4 +1,3 @@
-from shutil import register_unpack_format
 import PIL.Image
 from urllib.parse import urlparse
 import os
@@ -11,7 +10,6 @@ from tqdm import tqdm
 from colorama import Fore
 from skimage.metrics import structural_similarity as ssim
 import numpy as np
-import cv2
 import pandas as pd
 import json
 import VCPR
@@ -60,6 +58,9 @@ results["IAS"] = np.nan
 results["Area/1000"] = np.nan
 results["Normalized Area"] = np.nan
 results["Image Value"] = np.nan
+results["Normalised Size"] = np.nan
+
+sum_size = results["New Size (KB)"].sum()
 
 for original in tqdm(originalImages, bar_format=PROGRESS_BAR):
     sumSSIM = 0
@@ -76,9 +77,11 @@ for original in tqdm(originalImages, bar_format=PROGRESS_BAR):
     results.loc[original, "IAS"] = 1- (sumSSIM/len(qualities))
     results.loc[original, "Area/1000"] = area/1000
     results.loc[original, "Normalized Area"] = area/scrollArea
+    results.loc[original, "Normalized Size"] = results.loc[original, "New Size (KB)"]/sum_size
+    
     imageNum = imageNum + 1
 
-results["Image Value"] = a*results["IAS"] + b*results["Normalized Area"] + c*(1-results["Location"]) + d*results["New Size (KB)"]
+results["Image Value"] = a*results["IAS"] + b*results["Normalized Area"] + c*(1-results["Location"]) + d*results["Normalized Size"]
 total = results["Image Value"].sum()
 results["Reduction Factor"] = results["Image Value"]/total
 results.to_csv(host+"/results.csv")

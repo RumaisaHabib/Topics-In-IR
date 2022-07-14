@@ -1,8 +1,6 @@
-from pickletools import optimize
 from urllib.parse import urlparse
 import os
 import pqual
-from Screenshot import Screenshot_Clipping
 import sys
 from selenium import webdriver
 from urllib.parse import urlparse
@@ -14,12 +12,8 @@ import sys
 from tqdm import tqdm
 from colorama import Fore
 import pandas as pd
-from PIL import Image
 import time
-import math
 from skimage.metrics import structural_similarity as ssim
-import cv2
-import numpy as np
 import VCPR
 BYTE_SIZE = 1024
 PHONE_WIDTH = 360
@@ -96,6 +90,16 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
             results.loc[image, "JPG"] = False
             results.loc[image, "WEBP"] = False
             final_ssim = 0
+            
+        elif webpTrue and not jpg_removed and abs(jpg_ssim-webp_ssim) <= 0.1:
+            removed = webp_removed
+            results.loc[image,"Reduced Size of Image"], results.loc[image,"Quality Factor"],results.loc[image,"Color Depth Reduction"], results.loc[image, "WEBP"] = webp_size, encoding_quality, False, True
+            results.loc[image,"Removed"] = webp_removed
+            results.loc[image, "JPG"] = False
+            results.loc[image,"WEBP Encoding Quality"] = encoding_quality
+            final_ssim = webp_ssim
+            
+            result = webp_image
             
         elif not webpTrue or jpg_ssim > webp_ssim:
 
@@ -178,16 +182,17 @@ driver.save_screenshot(host+"/reduced.png")
 # img=ob.full_Screenshot(driver,save_path=os.getcwd()+"/"+host,image_name="reduced.png")
 driver.close()
 
-print(VCPR.findSSIM(host+"/reduced.png", host+"/original.png"))
+f_mse, f_ssim = VCPR.findSSIM(host+"/reduced.png", host+"/original.png")
+print("(" + str(f_mse) + " " + str(f_ssim) + ")")
 QSS = pqual.compare(host+"/original.png", host+"/reduced.png",mode="screenshot")
 
 qss_file = host+'_QSS_test.csv'
 if (os.path.isfile(qss_file)):
     qss_df = pd.read_csv(qss_file, index_col=0)
-    qss_df.loc[len(qss_df)] = [a,b,c,d,QSS]
+    qss_df.loc[len(qss_df)] = [a,b,c,d,QSS,f_ssim]
     qss_df.to_csv(qss_file)
 else:
-    pd.DataFrame([[a,b,c,d,QSS]], columns=["IAS", "Area", "Location", "Original Size", "QSS"]).to_csv(qss_file)
+    pd.DataFrame([[a,b,c,d,QSS,f_ssim]], columns=["IAS", "Area", "Location", "Original Size", "QSS", "SSIM"]).to_csv(qss_file)
 
 results['Reduced Size of Image'] = results['Reduced Size of Image'].replace('', pd.NA).fillna(results['Target Size of Image'])
 results["Error"] = results["Target Size of Image"] - results["Reduced Size of Image"]

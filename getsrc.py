@@ -1,25 +1,18 @@
-from numpy import imag
 from selenium import webdriver
 import re
-from Screenshot import Screenshot_Clipping
 from urllib.parse import urlparse
-import urllib.request, io
+import urllib.request
 from urllib.error import HTTPError
 from webdriver_manager.chrome import ChromeDriverManager
 import os
-import numpy as np
 import sys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 import pandas as pd
-import time
 import json
 from colorama import Fore
 from tqdm import tqdm
-from PIL import Image
 ''' 
 STEP ONE:
 Scrape images from the URL
@@ -80,7 +73,7 @@ driver.get(url)
 # Get all elements labelled 'img' and their sources
 images = driver.find_elements(By.TAG_NAME, 'img')
 image_srcs = [i.get_attribute('src') for i in images]
-image_locs = [i.location["y"] for i in images]
+# image_locs = [i.location["y"] for i in images]
 
 
 print("===== GETTING WEBPAGE SIZE =====")
@@ -97,6 +90,7 @@ page_data["kiloBytesIn"] = kb
 # Get the scrollable height and width of the webpage
 page_data["scrollHeight"] = driver.execute_script("return document.body.scrollHeight")
 page_data["scrollWidth"] = driver.execute_script("return document.body.scrollWidth") 
+image_locs = [i.location["y"]/page_data["scrollHeight"] for i in images]
 
 # Initialize the number of images in the page, the results document, and the sources
 num_img = 0
