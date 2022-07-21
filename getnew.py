@@ -91,7 +91,7 @@ for image in tqdm(image_names, bar_format=PROGRESS_BAR):
             results.loc[image, "WEBP"] = False
             final_ssim = 0
             
-        elif webpTrue and not jpg_removed and abs(jpg_ssim-webp_ssim) <= 0.1:
+        elif webpTrue and not jpg_removed and (abs(jpg_ssim-webp_ssim) <= 0.15 or webp_ssim > jpg_ssim):
             removed = webp_removed
             results.loc[image,"Reduced Size of Image"], results.loc[image,"Quality Factor"],results.loc[image,"Color Depth Reduction"], results.loc[image, "WEBP"] = webp_size, encoding_quality, False, True
             results.loc[image,"Removed"] = webp_removed
@@ -184,16 +184,18 @@ driver.close()
 
 f_mse, f_ssim = VCPR.findSSIM(host+"/reduced.png", host+"/original.png")
 print("(" + str(f_mse) + " " + str(f_ssim) + ")")
+results['Reduced Size of Image'] = results['Reduced Size of Image'].replace('', pd.NA).fillna(results['Target Size of Image'])
+results['Final SSIM'] = results['Final SSIM'].replace('', pd.NA).fillna(0)
+results["Error"] = results["Target Size of Image"] - results["Reduced Size of Image"]
 QSS = pqual.compare(host+"/original.png", host+"/reduced.png",mode="screenshot")
-
+our_qss = sum(results["Final SSIM"]*results["Normalized Area"])/sum(results["Normalized Area"])
 qss_file = host+'_QSS_test.csv'
 if (os.path.isfile(qss_file)):
     qss_df = pd.read_csv(qss_file, index_col=0)
-    qss_df.loc[len(qss_df)] = [a,b,c,d,QSS,f_ssim]
+    qss_df.loc[len(qss_df)] = [a,b,c,d,QSS,f_ssim, our_qss]
     qss_df.to_csv(qss_file)
 else:
-    pd.DataFrame([[a,b,c,d,QSS,f_ssim]], columns=["IAS", "Area", "Location", "Original Size", "QSS", "SSIM"]).to_csv(qss_file)
+    pd.DataFrame([[a,b,c,d,QSS,f_ssim, our_qss]], columns=["IAS", "Area", "Location", "Original Size", "QSS", "SSIM", "Our QSS"]).to_csv(qss_file)
 
-results['Reduced Size of Image'] = results['Reduced Size of Image'].replace('', pd.NA).fillna(results['Target Size of Image'])
-results["Error"] = results["Target Size of Image"] - results["Reduced Size of Image"]
+
 results.to_csv(host+"/results.csv")
